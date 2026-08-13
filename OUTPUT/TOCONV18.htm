@@ -1,0 +1,181 @@
+<html>
+<head>
+<title>ATUG Toolbook Tips -  Toolbook Tips &amp; Techniques Animation techniques</title>
+<link REL="ToC" HREF="httoc.htm">
+<link REL="Index" HREF="htindex.htm">
+<link REL="Next" HREF="TOCONV19.htm">
+<link REL="Previous" HREF="TOCONV17.htm"></head>
+<body BGCOLOR="#FFFFFF" BACKGROUND="images/grnmarbl.gif">
+
+
+<p align="center"><a href="https://toolbook.atug.com/" target="_blank">Australian Toolbook User Group</a></p>
+<h2 ALIGN="CENTER">
+<center>Toolbook Tips &amp; Techniques</center></h2>
+<p ALIGN="CENTER">
+<a HREF="TOCONV17.htm" TARGET="_self"><img SRC="images/blanprev.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Previous Page"></a>
+<a HREF="TOCONV19.htm" TARGET="_self"><img SRC="images/blannext.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Next Page"></a>
+
+<p>
+<ul>
+<li>
+<font FACE="Arial" SIZE="+1"><em><strong>Tips on</strong></em><p>
+<a HREF="#E17E13" NAME="LOCE17E13">Animation techniques</a></font>
+<ol>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E47">Using the 'playAnimation' command to initiate a Path Animation</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E48">Fast Straight Line Animation Script</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E49">Using the Toolbook Recorder to create simple animations</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E50">Using an bouncing ball animation 'widget' from the sample book &quot;Animate.tbk&quot;</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E51">Pausing for 2 seconds immediately after a Path Animation has finished playing</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E52">Cell Animation with no Movement</a></font></ol></ul>
+<hr WIDTH="80%" ALIGN="CENTER">
+<a NAME="E17E13"></a>
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E47"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Using the 'playAnimation' command to initiate </b><b>a Path Animation</b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Don Whitnah</i></font>
+<p><i><u>Question:</u></i><i> Can anybody tell me the right Syntax for the </i><i>instruction doneAnimatingNotify.  In the Toolbook </i><i>Manual I can only find the following:</i>
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>to handle buttonclick</b>
+<b>   send playAnimation AnimationNumber \</b>
+<b>to AnimationName, notify AnimationName</b>
+<b>end</b></font></pre>
+<p><i>This script does not work. There is something wrong with the </i><i>comma before notify.</i>
+<p><u>Answer:</u>
+<p>The correct syntax of the playanimation is:
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>send playanimation animationnumber, animationname, true to </b><b>animationname</b></font></pre>
+<p><b>animationnumber </b>
+<p>= number of animation of the object to play (1,2,3,etc)
+<p><b>animationname </b>
+<p>= the first time you see it, it describes which object will        recieve the doneanimatingnotify message in this case, the same object which is being animated recieves the         message, and you need to put the doneanimatingnotify message in that object, not anywhere else
+<p><b>true </b>
+<p>= (or false) indicates if the animation should play completely before something else starts
+<p><b>animationname </b>
+<p>= the second one tells which object will be animated, in this case animationname you may need to make sure the value of animationname is in the correct format (ie rectangle &quot;myanimation&quot; vs. &quot;myanimation&quot;)
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E48"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Fast Straight Line Animation</b><b> Script</b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Michael McKinnon</i></font>
+<p><i><u>Question</u></i><i>: I'd like to collect favorite methods for animating a </i><i>simple, straight line as in some event triggers a straight line to </i><i>be drawn from one point to another.  I've found Path </i><i>Animation to be almost hopeless on this simple task.  Look </i><i>forward to hearing other solutions.</i>
+<p><u>Answer</u>:  Look forward no more!  This is what I always put into my book or page script:
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>to handle CoolMove destpos</b>
+<b>        startpos = position of target</b>
+<b>        steps = 30  -- increase steps to slow down</b>
+<b>        xInc = (item 1 of destpos - \</b>
+<b>   </b><b>   </b><b>   </b><b>   </b><b>item 1 of startpos) / steps</b>
+<b>        yInc = (item 2 of destpos - \</b>
+<b>   </b><b>   </b><b>   </b><b>   </b><b>item 2 of startpos) / steps</b>
+<b>        step i from 1 to steps - 1</b>
+<b>                move target by xInc, yInc</b>
+<b>        end step</b>
+<b>        move target to destpos</b>
+<b>end</b></font></pre>
+<p>All I have to do is send the message with the coords in pageUnits to the object I want to animate!
+<p>For Example,
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>   </b><b>send CoolMove &quot;3500,4000&quot; to ellipse &quot;foo&quot;</b></font></pre>
+<p>This will work, provided you DON'T have a CoolMove handler on the ellipse object!  If you are working with a line object, all you need do is make some minor modifications to make it work with either end of the line.
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E49"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Using the Toolbook Recorder to create simple </b><b>animations</b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Andy Bulka</i></font>
+<p>The Toolbook script recorder (hit F8 to start, F8 to styop, then go to a script and press SHIFT-F8 to insert the generated script) is a great way to create animations.
+<p>You need to be aware of some traps:
+<ul>
+<li>Assuming you have moved an object step by step across the screen, the script will probably refer to 'selection' thus you will need to ensure the script has a script line that selects the object you are moving.  Either put this command in manually e.g. 'select ellipse &quot;reddy&quot;' or, even simpler, don't select the object you are moving until <i>after</i> the recording has begun - this way Toolbook will generate the script line to select the appropriate object.
+<li>You will need to sprinkle pause statements throughout the generated script - the script will run at full speed and run fastest on fast computers.  Every few lines, insert a statement like 'pause 10 ticks'
+<li>Only one animation can run at a time, so if you want 2 to run simultaneously, you will need to merge the script of two recorded animations yourself.
+</ul>
+<p>If these traps are too much to bear, try using the path animation facility built into Toolbook, which avoids all of these problems.
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E50"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Using an bouncing ball animation 'widget' from </b><b>the sample book &quot;Animate.tbk&quot;</b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Carter Knowles, Asymetrix</i></font>
+<p><i><u>Question:</u></i><i> I am trying to use an animation 'widget' from </i><i>&quot;Animate.tbk&quot; on the MTB4.0 CD. I have copied and pasted </i><i>the ball bouncing within a rectangle into my current project </i><i>without any problems. However, when I try using any other </i><i>object, including a rectangle, a paintobject, even another </i><i>identical ellipse, I get an error message &quot;Not a number &lt;null </i><i>value&gt; in [object]&quot;. This is highlighted in the script line:  </i>
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>&quot;xVector= item 1 of info&quot;  </b></font></pre>
+<p><i> (the word &quot;item&quot; is highlighted)  </i>
+<p><i>When I try using another object instead of the original ellipse, I </i><i>position the new object within the rectangle, copy the script </i><i>from the ellipse into the script of the new object and then </i><i>delete the original ellipse. I am up against a brick wall and </i><i>can't figure out the problem. Please please please please </i><i>help...?  </i>
+<p><i><u>Answer:</u></i>  I think what is happening is that you are forgetting about the user properties of the ellipse.  There are five user properties that must also be added to your new object so everything will work well.  I copied the ball and the field to a new instance of toolbook and everything worked fine.  I then added a rectangle and put the script there and got the same error you did.  Then I added the user properties of the ellipse to the user properties to the rectangle and they both worked fine.  
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E51"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Pausing for 2 seconds immediately after a </b><b>Path Animation </b><b>has finished playing</b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Craig S McDonald</i></font>
+<p><i><u>Question:</u></i><i> I've created a little pathAnimation that I would like to </i><i>play upon enterPage,  works fine.   What I would like to have </i><i>happen is that when the animation finishes playing, a brief </i><i>pause (1 or 2 seconds) would occur followed by a transition to </i><i>the next page.   Problem is that whenever I add anything to the </i><i>pathAnimation script (ie. pause 2 seconds), my animation will </i><i>not play (the animated object is at its end position) and I get a 2 </i><i>second pause before the send next message kicks in. [ My code </i><i>is as follows: ]</i>
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b><i>to handle enterPage</i></b>
+<b><i> sysLockScreen = true</i></b>
+<b><i> send playAnimation 1 to group &quot;cart&quot;</i></b>
+<b><i> pause 2 seconds</i></b>
+<b><i> send next </i></b>
+<b><i>end</i></b></font></pre>
+<p><i>Question continued: I've tried several variations of the above </i><i>and seem to run into the same type of problem.  That is:  my </i><i>pathAnimation works fine on its own, but as soon as I try to </i><i>add to that handler my pathAnimation ceases to function and </i><i>whatever I added takes over. </i>
+<p><i><u>Answer: </u></i>This script should help.
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>to handle enterPage</b>
+<b> send playAnimation 1,self,false to group &quot;cart&quot;</b>
+<b>  -- paramteters  [number of animation], \</b>
+<b>  -- [object to notify],[wait]</b>
+<b> forward</b>
+<b>end</b>
+<b>to handle doneAnimatingNotify</b>
+<b> pause 2 seconds</b>
+<b> send Next</b>
+<b>end</b>
+<img SRC="images/pathAnimationRed.gif" WIDTH="408" HEIGHT="284">
+<b>Figure </b><b>21</b><b> - An example of a path animation being </b><b>created.  You need to create an animation before using </b><b>the code, above.</b></font></pre>
+<p>
+<img SRC="images/noteanim.gif" WIDTH="86" HEIGHT="76"><b><i>Editors Note: </i></b>
+<br><i>The script solution above uses a notification message which </i><i>runs when the animation has completed. The original problem </i><i>script resulted in the following unwanted behaviour:</i>
+<br><i> 1. Animation told to begin, </i>
+<br><i> 2. Paused fir two seconds (didn't want this yet!)</i>
+<br><i>3. The animation continued playing until complete.</i>
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E52"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Cell Animation with no Movement</b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Butch Carino, Asymetrix</i></font>
+<p><i>Question: 1. How can I set up a cel animation in path </i><i>animation with no movement? If I set the same beginning and </i><i>end points, the compiler freaks out. It evidently doesn't account </i><i>for the beginning and vertices being the same point. TB errors </i><i>such as ..&quot;not a number, a null value&quot; and other calculation </i><i>errors that refer to to the compiler script</i>
+<p><u>Answer:</u>Why not just use hide and show commands to create a cell animation or else use the flip command?
+<p>
+<img SRC="images/noteanim.gif" WIDTH="86" HEIGHT="76"><b><i>Confirmation</i></b>
+<br><i>I can confirm that errors occur when you try to get a path </i><i>animation to stay in the exact same spot. I guess the term </i><i>'path' means your animation can't be sitting still.  </i>
+<br><i>A technique that can be used with the latest Toolbook II version </i><i>6 is that of using an Active&#150;X control to display an animated </i><i>GIF - perfect for this sort of situation where the animation </i><i>doesn't move. - Andy</i>
+
+<hr>
+<p>To access <em>thousands </em>more tips offline <em>-</em> download <a href="https://toolbook.atug.com/" target="_blank">Toolbook Knowledge Nuggets</a>&nbsp; </p>
+
+<p ALIGN="CENTER">
+<a HREF="TOCONV17.htm" TARGET="_self"><img SRC="images/blanprev.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Previous Page"></a>
+<a HREF="TOCONV19.htm" TARGET="_self"><img SRC="images/blannext.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Next Page"></a>
+</body></html>

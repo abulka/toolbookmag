@@ -1,0 +1,78 @@
+<HTML>
+<HEAD>
+<TITLE>ATUG Toolbook Tips -  Toolbook Tips &amp; Techniques Why Toolbook?</TITLE>
+<LINK REL="ToC" HREF="httoc.htm">
+<LINK REL="Index" HREF="htindex.htm">
+<LINK REL="Next" HREF="TOCONV~5.htm">
+<LINK REL="Previous" HREF="TOCONV~3.htm"></HEAD>
+<BODY BGCOLOR="#FFFFFF" BACKGROUND="images/grnmarbl.gif">
+
+
+<p align="center"><a href="https://toolbook.atug.com/" target="_blank">Australian Toolbook User Group</a></p>
+<H2 ALIGN=CENTER>
+<CENTER>Toolbook Tips &amp; Techniques</CENTER></H2>
+<P ALIGN=CENTER>
+<A HREF="TOCONV~3.htm" TARGET="_self"><IMG SRC="images/blanprev.gif" WIDTH = 37 HEIGHT = 37 BORDER = 0 ALT="Previous Page"></A>
+<A HREF="TOCONV~5.htm" TARGET="_self"><IMG SRC="images/blannext.gif" WIDTH = 37 HEIGHT = 37 BORDER = 0 ALT="Next Page"></A>
+
+<P>
+<UL>
+<LI>
+<FONT FACE="Arial" SIZE="+1"><em><strong>Tips on</strong></em><p>
+<A HREF="#E17E2" NAME="LOCE17E2" >Why Toolbook?</A></FONT>
+<OL>
+<LI>
+<FONT FACE="Arial" SIZE="+1">
+<A HREF="#E18E3" >Occam's Razor</A></FONT></OL></UL>
+<HR WIDTH=80% ALIGN=CENTER>
+<A NAME="E17E2"></A>
+<P>When I discovered Toolbook, almost 8 years ago now, I had a breakthrough in my effectiveness as a programmer.  I also recaptured a sense of programming as pleasure.
+<P>Toolbook is one of the more prominent inheritors of the hypercard programming metaphor.  The inventor of Hypercard, Bill Atkinson, was also the inventor of MacPaint &#150; a graphics program whose interface metaphor is now commonplace.  Hypercard (project Wildcard) was also an attempt to find a killer metaphor for programming.
+<P>These days (1998), the attempt to carve the conceptual continuum of automation and programming has resulted in hundreds of languages and authoring systems.  For example - see
+<PRE>
+<CENTER><A HREF="http://www.tiac.net/users/jasiglar/MMASFAQ.HTML">http://www.tiac.net/users/jasiglar/MMASFAQ.HTML</A></CENTER></PRE>
+<P>Other languages like Visual Basic (especially with it's Office 97 integration), Delphi 4 and Director 6.5 offer a real challenge to Toolbook.  On the other hand, Toolbook was the most powerful system of its day - and it has continued to evolve itself.  It may not be the best tool for all jobs, but it is good for many.  It has a compelling metaphor you grow to love and some amazing features that make programming simpler and  more exciting.
+<HR WIDTH=50% ALIGN=CENTER>
+<BR>
+<A NAME="E18E3"></A>
+<H3><P ALIGN=CENTER>
+<FONT FACE="Arial" SIZE="+3" COLOR="#008000"><B>Occam's Razor</B></FONT></H3>
+<P>The main reason why Toolbook fascinates me is that the principle of <I>Occam's Razor</I> <A NAME="I2"></A>has been used extensively.  
+<P>Occam's Razor generally means 'keep it simple'; if something is not necessary to the design, then leave it out.  If there are two ways to do something, choose the simpler way.  The principle is used by philosophers <A NAME="I3"></A>and scientists creating theories, and provides a much appreciated way of keeping theories from getting too complex, when they, in fact, don't <I>need</I> to be.
+<P>
+<FONT FACE="Arial" SIZE="+1" COLOR="#800040"><B>The sharp edge of Occam's Razor has </B><B>been keenly applied by the designers of </B><B>Toolbook.  Every act of programming has </B><B>been studied and boiled down into the </B><B>simplest, most elegant metaphor.</B></FONT>
+<P>Let me illustrate by comparing some C code which reads the contents of a file into memory with some Toolbook code that does the same thing:
+<PRE>
+<FONT FACE="Courier New" COLOR="#800040"><B>/* --- C language code --- */</B>
+<B>#define BUF_SIZE  32000</B>
+<B>FILE *fp;</B>
+<B>char buf[ BUF_SIZE+1 ];</B>
+<B>int numReadIn;</B>
+<B>fp = fopen(&quot;c:\cconfig.sys&quot;, &quot;r&quot;);</B>
+<B>numReadIn = fread(buf, sizeof(char), 32000, fp);</B>
+<B>fclose(fp);</B>
+<B>fprintf(stdout, &quot;%s&quot;, buf);</B></FONT></PRE>
+<P>Compare this to 
+<PRE>
+<FONT FACE="Courier New" COLOR="#800040"><B>--- Toolbook OpenScript code:</B>
+<B>set fp to &quot;c:\config.sys&quot;</B>
+<B>openFile fp</B>
+<B>readFile fp for 32000</B>
+<B>closeFile fp</B>
+<B>put it</B></FONT></PRE>
+<P>Notice the &quot;cleanliness of the Toolbook code.  Makes you want to sigh a breath of relief&#133;
+<P>The Toolbook designers designed Toolbook's OpenScript <A NAME="I4"></A>language so that <I>we use the file name to refer to the file</I> &#150; that's it, end of discussion, no <I>need </I>to introduce such extra notions as file handles.  
+<P>The language C, on the other hand, requires that you convert the file name into a file handle and use the file handle in subsequent file references.  Sure, there are good technical reasons why file handles are used &#150; Toolbook even uses them internally, however the Toolbook programmer doesn't know about them because at the level of applications programming, they are excess conceptual baggage.
+<P>Are you getting the idea of Occam's Razor?  Are you wondering just how much the razor of simplification can possibly trim out of a programming language?  Just how simple can it get, without sacrificing programming power?  Toolbook is a fascinating case study in this regard, raising all sorts of Computer Science <A NAME="I5"></A>and Language design issues
+<P>The futuristic ideas that the makers of Toolbook - Asymetrix, invested in their product are worthy of broad study and appreciation by all programmers.
+<P>More will follow&#133;
+<P>-Andy
+
+<hr>
+<p>To access <em>thousands </em>more tips offline <em>-</em> download <a
+href="https://toolbook.atug.com/" target="_blank">Toolbook Knowledge Nuggets</a>&nbsp; </p>
+
+<P ALIGN=CENTER>
+<A HREF="TOCONV~3.htm" TARGET="_self"><IMG SRC="images/blanprev.gif" WIDTH = 37 HEIGHT = 37 BORDER = 0 ALT="Previous Page"></A>
+<A HREF="TOCONV~5.htm" TARGET="_self"><IMG SRC="images/blannext.gif" WIDTH = 37 HEIGHT = 37 BORDER = 0 ALT="Next Page"></A>
+</BODY></HTML>

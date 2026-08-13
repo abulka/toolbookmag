@@ -1,0 +1,210 @@
+<html>
+<head>
+<title>ATUG Toolbook Tips -  Toolbook Tips &amp; Techniques Idle processing</title>
+<link REL="ToC" HREF="httoc.htm">
+<link REL="Index" HREF="htindex.htm">
+<link REL="Next" HREF="TOCONV22.htm">
+<link REL="Previous" HREF="TOCONV20.htm"></head>
+<body BGCOLOR="#FFFFFF" BACKGROUND="images/grnmarbl.gif">
+
+
+<p align="center"><a href="https://toolbook.atug.com/" target="_blank">Australian Toolbook User Group</a></p>
+<h2 ALIGN="CENTER">
+<center>Toolbook Tips &amp; Techniques</center></h2>
+<p ALIGN="CENTER">
+<a HREF="TOCONV20.htm" TARGET="_self"><img SRC="images/blanprev.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Previous Page"></a>
+<a HREF="TOCONV22.htm" TARGET="_self"><img SRC="images/blannext.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Next Page"></a>
+
+<p>
+<ul>
+<li>
+<font FACE="Arial" SIZE="+1"><em><strong>Tips on</strong></em><p>
+<a HREF="#E17E16" NAME="LOCE17E16">Idle processing</a></font>
+<ol>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E64">Ways to interrupt processing</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E65">Idle handler causing slow response</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E66">Checking the status of a checkbox periodically</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E67">Initiating a slideshow when the user has been idle for 15 seconds</a></font></ol></ul>
+<hr WIDTH="80%" ALIGN="CENTER">
+<a NAME="E17E16"></a>
+<p>The idle message is a fantastic message to intercept when you want to get things done as a background process.  
+<p>Sometimes though, you may not get an idle message if the focus of the program is somewhere strange, so a peroidic timer should also be considered as a way to trigger code whilst the user of your program is doing something else.
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E64"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Ways to interrupt processing</b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Carl Steinhilber</i></font>
+<pre>
+<center><img SRC="images/stopButton.gif" WIDTH="110" HEIGHT="52"></center></pre>
+<p><i><u>Question:</u></i><i> Is there a script I can put in a button so that a user </i><i>can get back control, whatever script is being executed.  I tried </i><i>mmClose all, but this works only on multimedia files.  What if I </i><i>have a script going that includes many step loops, etc.  I need a </i><i>script that will always work and interrupt any script I am </i><i>running.</i>
+<p><u>Answer:</u> Unfortunately, you're looking at this from the wrong way around  :)  The trick is not &quot;can I interrupt a script with step loops&quot;, but, rather, &quot;can I create scripts with steps that can be interrupted&quot;.  You CAN create a loop such as:
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>global  logical  exitProcess</b>
+<b>exitProcess = FALSE</b>
+<b>step i from 1 to 100000</b>
+<b>     -- do something</b>
+<b>     yieldApp()</b>
+<b>     if exitProcess then</b>
+<b>         break step</b>
+<b>     end</b>
+<b>end</b></font></pre>
+<p>then, on your button you wish to let interrupt the process:
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>to handle buttonClick</b>
+<b>     global  logical  exitProcess</b>
+<b>     exitProcess = TRUE</b>
+<b>end</b></font></pre>
+<p>But this is not good practice. And, particularly in Toolbook, you probably will not love the reliability or response time. The reason is the system is trying to execute the steps as fast as possible... and is doing it's best to ignore other system events (such as mouse clicks, etc). The only way to get it to pay any attention whatsoever to these other things is to execite a yieldApp() method... but, unfortunately, this causes Toolbook to pay attention to ALL the system events that may have been accumulating while the step loop was processing. 
+<p>It would be better to write the stepping script in such a way that it never lets all these events accumulate to be processed all at once, but rather process them as they come in. One way to accomplish this that I'm fond of using (Ian will probably kick me for this), is to use a timer or the idle handler to handle the looping. 
+<p>In the handler that initiates the loop process, instead of having a step event, simply set a book property: 
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>      set the doMyProcess of this book to TRUE</b></font></pre>
+<p>Then, create an idle handler:
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>to handle idle</b>
+<b>   if (the doMyProcess of this book) then</b>
+<b>          -- do stuff</b>
+<b>   end if</b>
+<b>end idle</b></font></pre>
+<p>Then, use a script for the interrupt button similar to the one above: 
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>to handle buttonClick</b>
+<b>    set the doMyProcess of this book to FALSE</b>
+<b>end</b></font></pre>
+<p>Since the idle handler (and timer handlers) will only fire when the system has finished processing other messages, your buttonClick on the interrupt button is recognized much more efficiently and quickly than with the step loop above. And since the system can process event practically at will, the event queue will usually only have a single event in it to process at any one time... so it really doesn't slow things down all that much (though you will notice SOME degradation). 
+<p>The trick is to think of virtually everything that happens in Windows as an &quot;event&quot;. And instead of a buttonClick being sent right to Windows to get processed, it's actually thrown onto a queue or &quot;stack&quot; (much like a Toolbook stack). And even multitasking doesn't negate the fact that the events in this stack must be processed one at a time... and usually in the order that they were put into the stack (first in, first out). So in the example script above that uses the step loop, while that loop is processing Windows is not looking at events in that stack. So it will start to build up like: 
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>     &quot;update system time&quot;</b>
+<b>     &quot;move cursor&quot;</b>
+<b>     &quot;hilight text&quot;</b>
+<b>     &quot;check serial port&quot;</b>
+<b>     &quot;beep speaker&quot;</b>
+<b>           :</b></font></pre>
+<p>And when you click on the interrupt button, of course that mouse click is thrown in after the last item of the stack. So by the time yieldApp() is called, all the other system events must be processed before the buttonClick is even seen. 
+<p>But if you use the timer or idle handler, and the system is continually able to process the event stack... Windows will &quot;see&quot; the buttonClick MUCH quicker, and the reaction time will be much more desirable. 
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E65"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Idle handler causing slow response</b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Chris J. Carden , Asymetrix</i></font>
+<p>The problem with checking the mmStatus in the idle handler is that, because the idle comes so fast, most of the CPU resources are burnt up just checking.  The best way to tell if the clip has ended is to use the &quot;notify&quot; option.  If that doesn't work for your situation, put some 'mmYield' commands in the idle handler or add a delay so that you only check once every second or two.
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E66"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Checking the status of a checkbox periodically</b></font></h3>
+<p><i><u>Question:</u></i><i>  I am using a script in a page to determine if the </i><i>checked of a button is true or false and to then show a pict </i><i>based on the status of the checked.  The problem is, I am </i><i>using the idle handler.  Any other handler such as buttonclick </i><i>only gives the result I want if the page is the reciever of the </i><i>buttonclick. Other objects on the page CAN effect the </i><i>checked status.  I need a script that allows the page to recieve </i><i>the checked status no matter how the checked status was </i><i>invoked. </i>
+<h5><i>Use forward</i></h5>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Craig McDonald</i></font>
+<p>You could forward your buttonClick handler, then the page would receive it. 
+<h5><i>Try a timer </i></h5>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Clifford Dedmore</i></font>
+<p>Try a timer that checks the status of the button every 1/2 second (much less time intensive than the idle).
+<h5><i>Try notifyafter buttonclick</i></h5>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>The Arben Group</i></font>
+<p>Try 
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>   </b><b>notifyafter buttonClick</b></font></pre>
+<p>I have used this before.
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E67"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Initiating a slideshow when the user has been </b><b>idle for 15 seconds</b></font></h3>
+<h5><i>Question</i></h5>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Aggelos Grondas</i></font>
+<p><i>With Toolbook can I have 20-30 different clips playing in serial  </i><i>order at idle time? I want after 10-15 secs of idle, the </i><i>application go to first page and then play 20 clips one by </i><i>one.  </i>
+<p><i>In Human Script:</i>
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>Hey nobody uses me for 15 seconds</b>
+<b>ok go to first page</b>
+<b>play video &quot;who&quot;</b>
+<b>is video &quot;who&quot; finished?</b>
+<b>play video &quot;who2&quot;</b>
+<b>end</b></font></pre>
+<h5><i>Reply - use a notify handler </i></h5>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Clifford Dedmore </i></font>
+<p>Yes you can, but using mmplay with a Notify handler to queue up the next clip.  Look at the syntax for the mmPlay command and you will see the Notify parameter.
+<h5><i>Followup question - hey I want more clips</i></h5>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Aggelos Grondas</i></font>
+<p><i><u>Question:</u></i><i> I was talking about 20-30 different clips.The notifier </i><i>seems to be work only with one (clip).</i>
+<p><i>Here is the *Open*Script [ I currently have which I want </i><i>someone to enahnce ]:</i>
+<pre>
+<font COLOR="#008080"><i>to handle EnterPage</i>
+<i> mmOpen clip &quot;test1&quot;</i>
+<i> mmPlay clip &quot;test1&quot; in stage &quot;video&quot; notify </i><i>self</i>
+<i>end</i>
+<i>to handle mmNotify cRef, cCommand, </i><i>cResult</i>
+<i> if cRef = clip &quot;test1&quot; and \</i>
+<i>   cResult = &quot;successful&quot; then</i>
+<i>  mmPlay clip &quot;test2&quot; in stage &quot;video&quot; \</i>
+<i>  notify self</i>
+<i> if cRef = clip &quot;test2&quot; and \</i>
+<i>   cResult = &quot;successful&quot; then</i>
+<i>     mmPlay clip &quot;test3&quot; in stage &quot;video&quot; \</i>
+<i>   </i><i>  notify self</i>
+<i>      if cRef = clip &quot;test3&quot; and \</i>
+<i>   cResult = &quot;successful&quot; then</i>
+<i>     mmPlay clip &quot;test4&quot; in stage &quot;video&quot; \</i>
+<i>   </i><i>  notify self</i>
+<i>     if cRef = clip &quot;test4&quot; and \</i>
+<i>   cResult = &quot;successful&quot; then</i>
+<i>     mmPlay clip &quot;test5&quot; in stage &quot;video&quot; \</i>
+<i>   </i><i>  notify self</i>
+<i> end if</i>
+<i> end if</i>
+<i> end if</i>
+<i> end if</i>
+<i> end</i></font></pre>
+<p><i>Any suggestions?</i>
+<h5><i>Reply - ok here's some code to do it</i></h5>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Clifford Dedmore </i></font>
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>to handle enterPage</b>
+<b>  my counter = 0</b>
+<b>  send MMNotify</b>
+<b>  forward</b>
+<b>end</b>
+<b>to handle MMNotify</b>
+<b>  increment my counter</b>
+<b>  conditions</b>
+<b>    when my counter = 1</b>
+<b>      mmPlay clip &quot;firstone&quot; in stage &quot;foo&quot; \</b>
+<b>   </b><b>   </b><b>notify self</b>
+<b>    when my counter = 2</b>
+<b>      mmPlay clip &quot;secondone&quot; in stage &quot;foo&quot; \</b>
+<b>   </b><b>   </b><b>notify self</b>
+<b>    when my counter = 3</b>
+<b>      ...</b>
+<b>      ...</b>
+<b>      ...</b>
+<b>  end</b>
+<b>end</b></font></pre>
+<p>NOTE: This is untested, but should work without much modification.
+
+<hr>
+<p>To access <em>thousands </em>more tips offline <em>-</em> download <a href="https://toolbook.atug.com/" target="_blank">Toolbook Knowledge Nuggets</a>&nbsp; </p>
+
+<p ALIGN="CENTER">
+<a HREF="TOCONV20.htm" TARGET="_self"><img SRC="images/blanprev.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Previous Page"></a>
+<a HREF="TOCONV22.htm" TARGET="_self"><img SRC="images/blannext.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Next Page"></a>
+</body></html>

@@ -1,0 +1,173 @@
+<html>
+<head>
+<title>ATUG Toolbook Tips -  Toolbook Tips &amp; Techniques Timing</title>
+<link REL="ToC" HREF="httoc.htm">
+<link REL="Index" HREF="htindex.htm">
+<link REL="Next" HREF="TOCONV21.htm">
+<link REL="Previous" HREF="TOCONV19.htm"></head>
+<body BGCOLOR="#FFFFFF" BACKGROUND="images/grnmarbl.gif">
+
+
+<p align="center"><a href="https://toolbook.atug.com/" target="_blank">Australian Toolbook User Group</a></p>
+<h2 ALIGN="CENTER">
+<center>Toolbook Tips &amp; Techniques</center></h2>
+<p ALIGN="CENTER">
+<a HREF="TOCONV19.htm" TARGET="_self"><img SRC="images/blanprev.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Previous Page"></a>
+<a HREF="TOCONV21.htm" TARGET="_self"><img SRC="images/blannext.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Next Page"></a>
+
+<p>
+<ul>
+<li>
+<font FACE="Arial" SIZE="+1"><em><strong>Tips on</strong></em><p>
+<a HREF="#E17E15" NAME="LOCE17E15">Timing</a></font>
+<ol>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E60">Timing Activities</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E61">Timing your scripts</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E62">Calculating the overhead of your timing code</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E63">StopWatch Script</a></font></ol></ul>
+<hr WIDTH="80%" ALIGN="CENTER">
+<a NAME="E17E15"></a>
+<pre>
+<center><img SRC="images/yellowEggTimerIcon.gif" WIDTH="73" HEIGHT="64"></center></pre>
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E60"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Timing Activities</b></font></h3>
+<p><i><u>Question:</u></i><i>   Does anyone know how to set up adding a clock </i><i>that ticks down to whatever time the user completes draging </i><i>objects to the correct spot?  I guess this needs a button to start </i><i>the drag action and the clock. </i>
+<p><i><u>Answer:</u></i><i> </i> Check out the starttimer function in openscript. You can start with something like the following:
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>to handle buttonClick</b>
+<b>  system s_GameTime</b>
+<b>  s_GameTime = 60  -- set the clock to 60 seconds</b>
+<b>  get timerCapability()</b>
+<b>  if it is null</b>
+<b>    break</b>
+<b>  end</b>
+<b>  get timerStart(&quot;periodic&quot;,1000,1000,self)</b>
+<b>  timerID of self = it</b>
+<b>end</b>
+<b>to handle timernotify TimerID</b>
+<b>  system s_GameTime</b>
+<b>  if s_GameTime &gt; 0</b>
+<b>    decrement s_GameTime</b>
+<b>    put s_GameTime into text of \</b>
+<b>   </b><b>   </b><b>field TimeDisplay -- your display field</b>
+<b>  else</b>
+<b>    get timerStop(TimerID of self)</b>
+<b>    clear timerID of self</b>
+<b>    request &quot;You have run out of time.&quot;</b>
+<b>  end</b>
+<b>end</b></font></pre>
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E61"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Timing your scripts</b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Michael McKinnon</i></font>
+<p>Using a function which is provided in the USER library of the Windows API, you can very easily measure the amount of time they take to execute. I will show you how.
+<p>Have you ever written a script that took a long time to execute?  Maybe you were doing some sorting, or complex mathematics.  Well, I know I have, and I use the following technique to time how long a handler takes, then I go back and make a few changes to see if I can make it quicker.  You will be amazed at the speed increases you can get if you take the time to understand the basics of OpenScript and the way it works.
+<p>The function I am going to introduce you to is called <b>getTickCount, </b>but I prefer to call it <b>gtc,</b> so that is what I will call it.  You can look up this function in the Windows API help file (WIN31WH.HLP) that came with Multimedia ToolBook.  You will see that its sole purpose is to return a value which represents the number of milliseconds that have elapsed since Windows was started!  I have no idea why this feature was implemented into Windows, but it does prove to be quite useful in this context.  The gtc will wrap around to zero after approximately 49 days, so there is not much chance that it will ever wrap around (unless you know anyone who can get Windows to run for that long without a GPF? I rest my case).
+<p>So, lets say that I have a script and I want to time it, I place the following code around the previous code.
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>-- Script Timing: of course, this doesn&#146;t </b>
+<b>-- have to be a buttonClick handler.</b>
+<b>to handle ButtonClick</b>
+<b>   </b><b>-- link the USER library and declare </b>
+<b>   </b><b>-- the gtc function</b>
+<b>   </b><b>linkDLL &quot;USER&quot;</b>
+<b>   </b><b>   </b><b>DWORD gtc=GetTickCount()</b>
+<b>   </b><b>end</b>
+<b>   </b><b>local DWORD t1, t2</b>
+<b>   </b><b>-- set t1 to the current gtc</b>
+<b>   </b><b>t1 = gtc()</b>
+<b>   </b>
+<b>   </b><b>{{{ THE SCRIPT I WANT TO TIME HERE }}}</b>
+<b>   </b><b>-- set t2 to the current gtc</b>
+<b>   </b><b>t2 = gtc()</b>
+<b>   </b><b>-- unlink the USER lib. This is </b>
+<b>   </b><b>-- optional as ToolBook does it automatically.</b>
+<b>   </b><b>unlinkDLL &quot;USER&quot;</b>
+<b>   </b><b>-- show the user how long it took</b>
+<b>   </b><b>request &quot;The time taken was&quot; \</b>
+<b>   </b><b>   </b><b>&amp;&amp;((t2-t1)/1000)&amp;&amp;&quot;seconds.&quot;</b>
+<b>End</b></font></pre>
+<p>As you can see, it is very easy to implement.  You could easily separate the two sections into a couple of handlers in the book or a special system book of your own.  Then you might only have to two lines around your code, and you could test multiple scripts easily.
+<h4>
+<font FACE="Arial" COLOR="#004080"><b>How to make scripts faster</b></font></h4>
+<p>There are so many small things than can affect the performance of a script.  Here are only a few suggestions (briefly):
+<p>&#149; Many people don&#146;t realise that it takes about 10 times longer to update an Object Property than it does to update a Local Variable.  The difference between the two is due to the fact that the User Property is static and gets saved when the book gets saved so it is part of the TBK file. Where is the TBK file stored? On Disk. Where is the Local Variable stored? In Memory. Which of the two is faster? Memory. <i>[ 10 times slower is the worst case of writing to a text </i><i>property of a field - setting a regular property or user </i><i>property is faster, though local variables will still be fastest </i><i>- Editor. ]</i>
+<p>&#149; More specifically, if you are writing text to a text field on the screen you are writing to an Object Property (text of &#133;).  If you are sorting text, or filling a text field line by line, send the results to a Local Variable first, then set the text of the object in one hit.
+<p>&#149; Try and nest multiple functions in one line.  For example, you might use something like Answer = (10*chartoansi(65)/lastanswer of self + text of field &quot;foo&quot;).  This would be opposed to declaring the text of field &quot;foo&quot; in a previous line to a variable if you were only going to look up the Object Property once in the script.
+<p>&#149; If you use a step loop to search for something, does your loop keep going, even though it may have found what it was looking for near the start?  Use the while statement instead.  Many people seem to become confused easily when it comes to deciding which type of loop to use.  Study them carefully and try to learn what their advantages and disadvantages are.
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E62"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Calculating the overhead of your timing code</b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Ian A Smith</i></font>
+<p>Timing tests like this are always very useful in deciding the best way to code an application.  You mention the effect of the loop time verses the operation under test.  One simple way to eliminate this is to execute the operation 16 times in each pass around the loop and divide the elapsed time by 16.  16 is not quite a random number.  I found that at fewer than 16 operations loops influence the timing, whilst greater than 16 the loop had a diminishing and insignificant effect.  You can experiment with this number if you like. 
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E63"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>StopWatch Script</b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Chris Carden</i></font>
+<pre>
+<center><img SRC="images/timerClockBlackIcon.gif" WIDTH="100" HEIGHT="120"></center></pre>
+<p><i><u>Question</u></i><u>:</u> <i>1.  How do you set the starting time at  &quot;00:00:00&quot;  </i><i>(for minutes, seconds and tenths of seconds)?  The sysTime </i><i>property is only accurate to seconds, not tenths of seconds.  </i>
+<p><i><u>Answer:</u></i><i> </i> You can use the Windows timeGetTime() API function to get the system time accurate to a few milliseconds.  The example below reports the time between the buttonDown and buttonClick on a button.
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>to handle enterBook</b>
+<b>     linkDLL &quot;mmSystem&quot;</b>
+<b>          DWORD timeGetTime()</b>
+<b>     end</b>
+<b>     forward</b>
+<b>end</b>
+<b>to handle buttonDown</b>
+<b>     system startTime</b>
+<b>     startTime = timeGetTime()</b>
+<b>end</b>
+<b>to handle buttonClick</b>
+<b>     system startTime</b>
+<b>     endTime =  timeGetTime()</b>
+<b>     request &quot;Elapsed = &quot; &amp; endTime - startTime</b>
+<b>end</b></font></pre>
+<p><i><u>Question</u></i><u>:</u> <i>2.   How can I format the output to the field </i><i>&quot;elapsed&quot; as &quot;00:00:00&quot; (minutes, seconds and tenths of a </i><i>second)?</i>
+<p><i><u>Answer:</u></i><i> </i> Because of the need for 1/10 second accuracy, I don't think the 'format' command will work for this. Below is a funciton that should return the formatted value.  Multimedia ToolBook has some auxilary functions that would make this simpler; however, because I don't know if you're using the multimedia verions, these are written 'from scratch.' Place the function in your book script, and you can call it from anywhere.  To test this, change the last line in the buttonClick handler above to:
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>request &quot;Elapsed = &quot; &amp; \</b>
+<b>  stopWatchFromMillisec(endTime - startTime)</b>
+<b>to get stopWatchFromMillisec argMS</b>
+<b>     -- Get Minutes</b>
+<b>     min = argMS div 60000</b>
+<b>     format number min as &quot;00&quot;</b>
+<b>     -- Get Seconds</b>
+<b>     remTime = argMS mod 60000</b>
+<b>     sec = remTime div 1000</b>
+<b>     format number sec as &quot;00&quot;</b>
+<b>     -- Get Hundredths of Seconds</b>
+<b>     remTime = remTime mod 1000</b>
+<b>     hndrth = remTime div 10</b>
+<b>     format number hndrth as &quot;00&quot;</b>
+<b>     return min &amp; &quot;:&quot; &amp; sec &amp; &quot;:&quot; &amp; hndrth</b>
+<b>end</b></font></pre>
+
+<hr>
+<p>To access <em>thousands </em>more tips offline <em>-</em> download <a href="https://toolbook.atug.com/" target="_blank">Toolbook Knowledge Nuggets</a>&nbsp; </p>
+
+<p ALIGN="CENTER">
+<a HREF="TOCONV19.htm" TARGET="_self"><img SRC="images/blanprev.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Previous Page"></a>
+<a HREF="TOCONV21.htm" TARGET="_self"><img SRC="images/blannext.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Next Page"></a>
+</body></html>

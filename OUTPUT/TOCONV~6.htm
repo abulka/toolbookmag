@@ -1,0 +1,132 @@
+<html>
+<head>
+<title>ATUG Toolbook Tips -  Toolbook Tips &amp; Techniques Menus - General Tricks</title>
+<link REL="ToC" HREF="httoc.htm">
+<link REL="Index" HREF="htindex.htm">
+<link REL="Next" HREF="TOCONV~7.htm">
+<link REL="Previous" HREF="TOCONV~5.htm"></head>
+<body BGCOLOR="#FFFFFF" BACKGROUND="images/grnmarbl.gif">
+
+
+<p align="center"><a href="https://toolbook.atug.com/" target="_blank">Australian Toolbook User Group</a></p>
+<h2 ALIGN="CENTER">
+<center>Toolbook Tips &amp; Techniques</center></h2>
+<p ALIGN="CENTER">
+<a HREF="TOCONV~5.htm" TARGET="_self"><img SRC="images/blanprev.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Previous Page"></a>
+<a HREF="TOCONV~7.htm" TARGET="_self"><img SRC="images/blannext.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Next Page"></a>
+
+<p>
+<ul>
+<li>
+<font FACE="Arial" SIZE="+1"><em><strong>Tips on</strong></em><p>
+<a HREF="#E17E3" NAME="LOCE17E3">Menus - General Tricks</a></font>
+<ol>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E4">Sending keystrokes to Menus</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E5">Displaying a Menu item's help text on the Status Bar as the user moves amongst menu items</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E6">Figuring out what code gets run when you select a menu item</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E7">Simulating the Windows Minimize control</a></font></ol></ul>
+<hr WIDTH="80%" ALIGN="CENTER">
+<a NAME="E17E3"></a>
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E4"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Sending keystrokes to Menus</b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>John R. Hall</i></font>
+<p><i><u>Question: </u></i><i> How can I activate a menu from openscript so its </i><i>dropdown menuitems are visible without the user clicking the </i><i>menu itself?</i>
+<p><u>Answer</u>:  Check out the sendkeys function of tbwin30.dll. Example of calling up the file menu without keystrokes:
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>to handle buttonclick</b>
+<b>    linkdll &quot;tb40win.dll&quot;</b>
+<b>            INT sendKeys(STRING,INT)</b>
+<b>    end</b>
+<b>    get sendKeys(&quot;%{keyf}&quot;,1)</b>
+<b>end</b></font></pre>
+<p>of course, the dll link can be anywhere before calling sendkeys and tb40win.dll could be tb30win.dll if you're running 3.0a.
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E5"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Displaying a Menu item's help text on the </b><b>Status Bar</b><b> as the user moves amongst menu </b><b>items</b></font></h3>
+<p><u>Question:</u> <i>  I have created my own status bar since I wanted </i><i>specialized buttons to appear on it. If I used the standard </i><i>status bar each menu item's help text be displayed in the </i><i>status bar automatically when the user moves among menu </i><i>items.</i>
+<p><i>I want to do the same for my own status bar. Is there an event </i><i>message I can capture to automatically display a given menu </i><i>item's help text in my status bar?</i>
+<h4>
+<font FACE="Arial" COLOR="#004080"><b>Reply 1 &#150; write a handler for each menu item</b></font></h4>
+<p>You could write an handler for each menu item.  In the handler change the text of the status bar.  Also, forward the handler if you wish.
+<h4>
+<font FACE="Arial" COLOR="#004080"><b>Follow up Question &#150; need to intercept before slection occurs</b></font></h4>
+<p><i>But the status bar should be updated when a menu item is </i><i>highlighted and not when it is actually selected. As far as I </i><i>know, the script handler is called only when a menu item is </i><i>selected and not highlighted. Is there an event I can handle </i><i>when a menu item is highlighted and not actually selected? Do </i><i>you have any other suggestions?</i>
+<h4>
+<font FACE="Arial" COLOR="#004080"><b>Reply 2</b></font></h4>
+<p>Take a look at the functions
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>   </b><b>setMenuHelpText() </b><b>   </b><b>and</b>
+<b>   </b><b>setMenuItemHelpText() </b></font></pre>
+<p>in the ToolBook help file.  There are examples listed in the help file as well.
+<h4>
+<font FACE="Arial" COLOR="#004080"><b>Reply 3</b></font></h4>
+<p>To do what you want, you probably need to use  
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>   </b><b>TranslateWindowMessage</b></font></pre>
+<p>to intercept the <b>WM_MENUSELECT </b>message sent whenever the selection moves to another menu item.
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E6"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Figuring out what code gets run when you </b><b>select a menu item</b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Andy Bulka</i></font>
+<p>You can interrupt any running script by pressing and holding down both SHIFT keys on your keyboard.  You will drop into the debugger.
+<p>This is an excellent tip to know, because not only can you stop run-away scripts (infinite loops and recursions) but you can see what openscript code a particular menu item is triggering.
+<ul>
+<li>Select a menu item from the Toolbook menu
+<li>Do not release the mouse button yet
+<li>Press and hold both shift keys down at the same time
+<li>NOW release the mouse button
+<li>The debugger will open on the script line that the menuitem triggered.
+</ul>
+<pre>
+<center><img SRC="images/dblshift.gif" WIDTH="300" HEIGHT="354"></center></pre>
+<p ALIGN="CENTER">
+<center><b>Figure </b><b>1</b><b> - </b><b> If you &quot;double shift&quot; at the right time, you will </b><b>drop into the debugger</b></center>
+<p>Remember, you can interrupt your running code at any time using this technique.  For example - if your code has been running for a long time and you don't know what is happening - just press the SHIFT keys to have a peek.  
+<p>
+<font FACE="Arial" SIZE="+1" COLOR="#800040"><b>After looking (via the debugger) at the </b><b>relevant code, and perhaps stepping </b><b>through a few statements, you can resume </b><b>full-speed execution of your code by </b><b>pressing CTRL-G from within the </b><b>debugger.</b></font>
+<p>Choosing EXIT from the Debugger also allows you to exit without running rhe remaining script.
+<p>Note that the screen may not refresh fully at this point, so you may have to put up with a few screen artifacts - a small price to pay for the power of double shifting! 
+<p>
+<img SRC="images/noteanim.gif" WIDTH="86" HEIGHT="76"><b><i>Warning</i></b>
+<br><i>The double shift script 'stopper' does not work in versions of </i><i>Toolbook 5 and below under NT 4.</i>
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E7"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Simulating the Windows Minimize control</b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Erik Reitan Asymetrix</i></font>
+<p><u>Question:</u> <i> Is there  anyway I can control (put a script into) the </i><i>minimize button?</i>
+<p><i><u>Answer:</u></i><i> </i> When you press the minimize button a handler will be call in the viewer (even the main viewer) called stateChanged.  You could use the following script let you know that the ToolBook window has been minimized:
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>to handle stateChanged</b>
+<b>   if state of self = &quot;minimized&quot;</b>
+<b>           request &quot;minimized!&quot;</b>
+<b>   end</b>
+<b>   forward</b>
+<b>end</b></font></pre>
+
+<hr>
+<p>To access <em>thousands </em>more tips offline <em>-</em> download <a href="https://toolbook.atug.com/" target="_blank">Toolbook Knowledge Nuggets</a>&nbsp; </p>
+
+<p ALIGN="CENTER">
+<a HREF="TOCONV~5.htm" TARGET="_self"><img SRC="images/blanprev.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Previous Page"></a>
+<a HREF="TOCONV~7.htm" TARGET="_self"><img SRC="images/blannext.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Next Page"></a>
+</body></html>

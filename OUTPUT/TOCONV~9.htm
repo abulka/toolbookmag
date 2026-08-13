@@ -1,0 +1,132 @@
+<html>
+<head>
+<title>ATUG Toolbook Tips -  Toolbook Tips &amp; Techniques Counting and sorting textlines</title>
+<link REL="ToC" HREF="httoc.htm">
+<link REL="Index" HREF="htindex.htm">
+<link REL="Next" HREF="TOCONV10.htm">
+<link REL="Previous" HREF="TOCONV~8.htm"></head>
+<body BGCOLOR="#FFFFFF" BACKGROUND="images/grnmarbl.gif">
+
+
+<p align="center"><a href="https://toolbook.atug.com/" target="_blank">Australian Toolbook User Group</a></p>
+<h2 ALIGN="CENTER">
+<center>Toolbook Tips &amp; Techniques</center></h2>
+<p ALIGN="CENTER">
+<a HREF="TOCONV~8.htm" TARGET="_self"><img SRC="images/blanprev.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Previous Page"></a>
+<a HREF="TOCONV10.htm" TARGET="_self"><img SRC="images/blannext.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Next Page"></a>
+
+<p>
+<ul>
+<li>
+<font FACE="Arial" SIZE="+1"><em><strong>Tips on</strong></em><p>
+<a HREF="#E17E5" NAME="LOCE17E5">Counting and sorting textlines</a></font>
+<ol>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E12">Built In SortTextLines function</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E13">Counting the number of text lines the user can actually see in a field. </a></font></ol></ul>
+<hr WIDTH="80%" ALIGN="CENTER">
+<a NAME="E17E5"></a>
+<p>A textline is a specific line of text in a toolbook field.  For example:   textline 1 of field &quot;x&quot; = &quot;hi&quot;   would set the first line of that field to the word 'hi'.
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E12"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Built In SortTextLines function</b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Jeffrey Rhodes </i></font>
+<p><i><u>Question</u></i><i>: I'm having some problems with the sortTextLines </i><i>function. I'm running ToolBook II Publisher 5.0 under Win95 </i><i>with 32megs RAM and at least 25megs free on all of my disks. </i><i>When I run the following code in the command window I am </i><i>getting a dialog box with NO text (except for the OK button).  </i><i>The system gives me no error message. </i>
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>x = &quot;C&quot; &amp; CRLF &amp; &quot;B&quot; &amp; CRLF &amp; &quot;A&quot;</b>
+<b>y=sortTextLines(x)</b>
+<b>request y</b></font></pre>
+<p><u>Answer</u>: I would suspect that you are not linking in the function.  Somewhere (e.g., enterApplication), you need the lines: 
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>linkDLL &quot;tb50dlg.dll&quot;</b>
+<b> STRING sortTextlines(STRING)</b>
+<b>end linkDLL</b></font></pre>
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E13"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Counting the number of text lines the user can </b><b>actually see in a field.</b><b> </b></font></h3>
+<pre>
+<center><img SRC="images/countingTextLines2.gif" WIDTH="240" HEIGHT="146"></center></pre>
+<p ALIGN="CENTER">
+<center><b>Figure </b><b>4</b><b> - resizing a field containing a single textline causes </b><b>word wrapping (when the word wrap property of that field is set </b><b>to true - which it is by default)</b></center>
+<p>Normally we count the number of textlines in a Toolbook text field by using the following code:
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>   </b><b>textLineCount( text of field &quot;fldName&quot; )</b></font></pre>
+<p>Now, what happens when the width of the field is narrower than the textline width, so that one line is wrapped over several lines?  How do we find out the number of <i>visible </i><i>textlines</i> in our field that the user is perceiving ?  This is a way of doing it - here it is:
+<h4>
+<font FACE="Arial" COLOR="#004080"><b>Visual Textline Counting </b></font></h4>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Mike Shepherd</i></font>
+<p><i><u>Question:</u></i><i>  I need a method for measuring the percent of a field </i><i>scrolled. I can use the &quot;scroll&quot; property of the field to measure </i><i>the number of lines scrolled above the top margin. However, I </i><i>can't find a reliable way to measure the total lines in the field. </i><i>Dividing the two would give me what I need. The </i><i>&quot;textlinecount&quot; function only gives me the number of </i><i>textlines (up to crlf) in the field.</i>
+<p><i><u>Answer: </u></i> How about locking the screen, setting the scroll to 10,000 (well above the real limit) and then reading the value of 'scroll' which will now be the last possible line you could possibly scroll to...then set the scroll back to 0 and unlock the screen. 
+<h4>
+<font FACE="Arial" COLOR="#004080"><b>Visual Textline Counting - Step-by-step (plus code)</b></font></h4>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Andy Bulka</i></font>
+<p>To illustrate the above solution, I have written a function called <i>textLineCountVisible.  </i>To understand how it works, do the following:
+<ul>
+<li>Create a new book
+<li>Create a new field
+<li>Type in one long line into the field.  Ensure that you don&#146;t put in any carriage returns, so that Toolbook&#146;s textlinecount() function will report a result of 1.
+<br>
+</ul>
+<p>NOTE: You don&#146;t <i>have </i>to put in a line with only 1 carriage return.  I suggest this only so that your results match the example given here.
+<br>
+<ul>
+<li>Create a button and type in the following script:
+</ul>
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>to handle buttonclick</b>
+<b>   </b><b>request textlinecount(text of field &quot;x&quot;) &amp;crlf&amp;\</b>
+<b>   </b><b>      textLineCountVisible( field &quot;x&quot; )</b>
+<b>end</b>
+<br></font></pre>
+<p>You should have something like this:
+<pre>
+<center><img SRC="images/countLines.gif" WIDTH="240" HEIGHT="116"></center></pre>
+<p ALIGN="CENTER">
+<center><b>Figure </b><b>5</b><b> - This single long line of text is wrapping due to the </b><b>edges of the text field &quot;x&quot;.</b></center>
+<p>Even though the Toolbook function textLineCount reports 1 as the number of textlines in the field, we want to know how many lines <i>we actually see</i>.
+<p>I have written the following function to help us.  Place it in the button&#146;s script, or somewhere else in the object hierarchy e.g. in the page&#146;s script, or in the book&#146;s script - or even in your system book&#146;s script, if you have one.
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>to get textLineCountVisible fld</b>
+<b>   </b><b>-- Lock the screen so that the </b>
+<b>   -- text stays in place whilst we are making</b>
+<b>   </b><b>-- our calculations.</b>
+<b>   </b><b>savLock = sysLockScreen</b>
+<b>   </b><b>sysLockScreen = true</b>
+<b>   </b>
+<b>   </b><b>-- Do the trick</b>
+<b>   </b><b>savScroll = scroll of field &quot;x&quot;</b>
+<b>   </b><b>scroll of field &quot;x&quot; = 10000</b>
+<b>   </b><b>get scroll of field &quot;x&quot;</b>
+<b>   </b><b>scroll of field &quot;x&quot; = savScroll</b>
+<b>   </b>
+<b>   </b><b>sysLockScreen = savLock</b>
+<b>   </b><b>-- Adjust the result slightly</b>
+<b>   </b><b>return it + 1</b>
+<b>end</b></font></pre>
+<p>Ok.  That&#146;s it.  Switch to run mode and press the button.  You should get the following result:
+<pre>
+<center><img SRC="images/countingTextLines1.gif" WIDTH="240" HEIGHT="108"></center></pre>
+<p ALIGN="CENTER">
+<center><b>Figure </b><b>6</b><b> - there is 1 textline which wraps to make 4 &#145;visual&#146; </b><b>textlines</b></center>
+<p>which means that there is 1 textline which wraps to make 4 &#145;visual&#146; textlines.  Neat eh?  Now try resizing the field e.g. making it narrower - resulting in even more wrapping and thus more 'visual textlines.
+<p>
+<img SRC="images/noteanim.gif" WIDTH="86" HEIGHT="76"><b><i>Bonus</i></b>
+<br><i>This technique will work for rich text, meaning big fonts and </i><i>text effects etc don't affect the accuracy of the algorithm.</i>
+
+<hr>
+<p>To access <em>thousands </em>more tips offline <em>-</em> download <a href="https://toolbook.atug.com/" target="_blank">Toolbook Knowledge Nuggets</a>&nbsp; </p>
+
+<p ALIGN="CENTER">
+<a HREF="TOCONV~8.htm" TARGET="_self"><img SRC="images/blanprev.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Previous Page"></a>
+<a HREF="TOCONV10.htm" TARGET="_self"><img SRC="images/blannext.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Next Page"></a>
+</body></html>

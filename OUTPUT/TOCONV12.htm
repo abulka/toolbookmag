@@ -1,0 +1,385 @@
+<html>
+<head>
+<title>ATUG Toolbook Tips -  Toolbook Tips &amp; Techniques Scrolling / Colouring / Autosizing / Positioning fields</title>
+<link REL="ToC" HREF="httoc.htm">
+<link REL="Index" HREF="htindex.htm">
+<link REL="Next" HREF="TOCONV13.htm">
+<link REL="Previous" HREF="TOCONV11.htm"></head>
+<body BGCOLOR="#FFFFFF" BACKGROUND="images/grnmarbl.gif">
+
+
+<p align="center"><a href="https://toolbook.atug.com/" target="_blank">Australian Toolbook User Group</a></p>
+<h2 ALIGN="CENTER">
+<center>Toolbook Tips &amp; Techniques</center></h2>
+<p ALIGN="CENTER">
+<a HREF="TOCONV11.htm" TARGET="_self"><img SRC="images/blanprev.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Previous Page"></a>
+<a HREF="TOCONV13.htm" TARGET="_self"><img SRC="images/blannext.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Next Page"></a>
+
+<p>
+<ul>
+<li>
+<font FACE="Arial" SIZE="+1"><em><strong>Tips on</strong></em><p>
+<a HREF="#E17E8" NAME="LOCE17E8">Scrolling / Colouring / Autosizing / Positioning fields</a></font>
+<ol>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E20">Scrolling two fields at the same time </a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E21">Keeping text Tables in fields correctly aligned using tabs</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E22">Dynamically changing field size (font independent) </a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E23">Selecting the the topmost field from many fields</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E24">Coloring text as it is being read</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E25">Showing a field and then making it disappear after a time</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E26">Determining the caretLocation of the text cursor - in pageUnits</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E27">Calculating the 'corner' coordinates of a toolbook object</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E28">Determining the screen position of the selectedTextLine of a field.</a></font></ol></ul>
+<hr WIDTH="80%" ALIGN="CENTER">
+<a NAME="E17E8"></a>
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E20"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Scrolling two fields at the same time</b><b> </b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Warren Rhude and Omarfadly</i><i> </i></font>
+<pre>
+<center><img SRC="images/scrollby2.gif" WIDTH="210" HEIGHT="123"></center></pre>
+<p ALIGN="CENTER">
+<center><b>Figure </b><b>14</b><b> - Two fields scroll when a user scrolls just one.  </b><b>Cool.</b></center>
+<p><i><u>Question:</u></i><i>   I need to scroll a text field from script but the field </i><i>in question does not have a scroll bar. Is there any way to do </i><i>this because our usability studies have shown that scroll bars </i><i>are too cumbersome for novice computer users.</i>
+<p><i><u>Answer:</u></i><i> </i> Try this command :
+<p><b>  increment scroll of &lt;Field Name&gt;</b>     and
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>  decrement scroll of &lt;Field Name&gt;</b></font></pre>
+<p>Here is an example of having three fields scroll together
+<ul>
+<li>Create the three fields and name them F1, F2, and F3
+<li>Set border style of F1 to scrolling, leave the others non scrolling
+<li>Group the fields together and set the group script to:
+</ul>
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>to handle textscrolled</b>
+<b>  set scroll of field &quot;F2&quot; to scroll of field &quot;F1&quot;</b>
+<b>  set scroll of field &quot;F3&quot; to scroll of field &quot;F1&quot;</b>
+<b>end</b></font></pre>
+<p>When field &quot;F1&quot; is scrolled the others should scroll also!
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E21"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Keeping text Tables in fields correctly aligned</b><b> </b><b>using tabs</b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>John R. Hall</i></font>
+<p><i><u>Question</u></i><i>: I have problem... in my field is text and numeric </i><i>data in straight lines and it's important to keep them in their </i><i>own colums. When i change resolution lines goes messy,  what </i><i>can i do?</i>
+<pre>
+<font FACE="Courier New" COLOR="#800040"><i><u>before</u></i><b><i> (1024 x 768 courier)</i></b>
+<b><i>mister Smith  3453,45      3453,45</i></b>
+<b><i>mister Jones  1232,34      4233,45</i></b>
+<i><u>after</u></i><b><i><u> </u></i></b><b><i>(640 x 480 still courier...)</i></b>
+<b><i>mister Smith  3453,45               3453,45</i></b>
+<b><i>Mister Jones  1232,34      4233,45</i></b></font></pre>
+<p><u>Answer:</u> Experiment with your tab interval. Usually you can modify the tab setting for the paragraph until it looks the same in both resolutions. In the 640 res, the font is so big that it goes beyond the threshold for the first tab stop and jumps to the second. If you change tab stops from .4 to .5 or something along those lines, it will often solve the problem. Same thing happens in word processors by the way. 
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E22"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Dynamically changing field size (font </b><b>independent)</b><b> </b></font></h3>
+<p><i><u>Question:</u></i><i> I would like to create a field that changes it size </i><i>depending on how much text is in the field. The field should </i><i>increase it's size when the user types in text and shrink when </i><i>the user deletes text. The script should consider font, fontsize </i><i>and fontstyle or even better should be font independent. I </i><i>experimented a little with the textunderflow property but I </i><i>didn't get too far with it. </i>
+<pre>
+<center><img SRC="images/autosizingField.gif" WIDTH="204" HEIGHT="115"></center></pre>
+<p ALIGN="CENTER">
+<center><b>Figure </b><b>15</b><b> - An example of a field dynamically growing in </b><b>order to fit the text it contains - without clipping.</b></center>
+<h4>
+<font FACE="Arial" COLOR="#004080"><a NAME="I2"></a><b>Reply1</b><b> &#150;simple textoverlfow solution</b></font></h4>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Stephen Muller</i></font>
+<p>I suggest you build a while loop around the textOverFlow property, something like this....
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>-- change these constants to suit your font</b>
+<b>X_delta = 60</b>
+<b>Y_delta = 30</b>
+<b>while textOverFlow of field &quot;foo&quot; &gt; 0</b>
+<b>     item 1 of size of field &quot;foo&quot; = \</b>
+<b>   </b><b>   </b><b>item 1 of size of field &quot;foo&quot; + X_delta</b>
+<b>     item 2 of size of field &quot;foo&quot; = \</b>
+<b>   </b><b>   </b><b>item 2 of size of field &quot;foo&quot; + Y_delta</b>
+<b>end</b></font></pre>
+<h4>
+<font FACE="Arial" COLOR="#004080"><a NAME="I3"></a><b>Reply2</b><b> &#150; handling keychars and clipboard paste</b></font></h4>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Andre Rosendaal</i></font>
+<p>Try the following script. You will have to write code yourself for operations like pasting and cutting, deleting text by pressing backspace etc. Send Init to the (record)field before enabling input, this will set the initial height. This routine will use the default font for the field, I guess that will do. Otherwise you will have to check what the maximum fontsize of the text in the field is. 
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>to handle Init</b>
+<b>  l_sls = sysLockscreen</b>
+<b>  sysLockscreen = true</b>
+<b>  l_rtf = richtext of self</b>
+<b>  text of self = &quot;A&quot;</b>
+<b>  scroll of self = 0</b>
+<b>  item 1 of size of self = 100</b>
+<b>  item 2 of size of self = 10</b>
+<b>  while textoverflow of self &lt;&gt; 0</b>
+<b>    increment item 2 of size of self by 10</b>
+<b>  end while</b>
+<b>  richtext of self = l_rtf</b>
+<b>  scroll of self = 0</b>
+<b>  while textoverflow of self &lt;&gt; 0</b>
+<b>    increment item 3 of bounds of self by 300</b>
+<b>  end while</b>
+<b>  sysLockscreen = l_sls</b>
+<b>end</b>
+<b>to handle KeyChar p_key</b>
+<b>  forward</b>
+<b>  set scroll of self to 0</b>
+<b>  if p_key = keyBackspace</b>
+<b>    -- decrease size of field</b>
+<b>  else</b>
+<b>    if textoverflow of self &lt;&gt; 0</b>
+<b>      send AdjustSize</b>
+<b>    end if  </b>
+<b>  end if</b>
+<b>end KeyChar</b>
+<b>to handle AdjustSize</b>
+<b>  l_sls = sysLockscreen</b>
+<b>  sysLockscreen = true</b>
+<b>  scroll of self = 0</b>
+<b>  while textoverflow of self &lt;&gt; 0</b>
+<b>    increment item 1 of size of self by 300</b>
+<b>  end while</b>
+<b>end AdjustSize</b>
+<b>-- a field does not receive the paste message, so you have </b><b>to place the</b>
+<b>next handler higher in the object hierarchy.</b>
+<b>to handle Paste</b>
+<b>  if 'focus is a resizable field'  </b>
+<b>    send AdjustSize to target</b>
+<b>  end</b>
+<b>end</b></font></pre>
+<h4>
+<font FACE="Arial" COLOR="#004080"><a NAME="I4"></a><b>Reply3</b><b> &#150; autosizing a field to fit the viewer it is displayed in</b></font></h4>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Forrest Couch, NOESIS Interactive Learning Systems</i></font>
+<p>Try this. This is a sample script that I use often as a user message in a pop-up viewer. In this example, I created a recordField on a background page. I put this script on the background page. The size of this particular field if 3500,300. You can fix one dimension of the field and let the other grow, for example. You will have to play around with it to fit your exact needs. Contact me if you like. Good luck. 
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>to handle enterPage</b>
+<b>  sysLockScreen = true</b>
+<b>  scroll of recordField &quot;message&quot; = 0</b>
+<b>  set size of recordField &quot;message&quot; to 3500,300</b>
+<b>    if textOverFlow of recordField &quot;message&quot; &gt; 0</b>
+<b>      do</b>
+<b>        increment item 4 of \</b>
+<b>   </b><b>   </b><b>   </b><b>bounds of recordField \</b>
+<b>   </b><b>   </b><b>   </b><b>&quot;message&quot; by 150</b>
+<b>      until textOverFlow of \</b>
+<b>   </b><b>   </b><b>recordField &quot;message&quot; = 0</b>
+<b>    end if</b>
+<b>  increment item 4 of bounds of \</b>
+<b>   </b><b>recordField &quot;message&quot; by 50</b>
+<b>  size of this background = size of \</b>
+<b>   </b><b>recordField &quot;message&quot;</b>
+<b>  sysLockScreen = false</b>
+<b>end</b></font></pre>
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E23"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Selecting the the topmost field</b><b> from many </b><b>fields</b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Claude Ostyn     </i></font>
+<p><i><u>Question</u></i><u>:</u> <i> How would one phrase a script that will select, </i><i>among all the VISIBLE objects on the page, the topmost field?</i>
+<p> <i><u>Answer:</u></i><i> </i> Easy with Multimedia ToolBook 3.0:
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b> get GetObjectList(this page,&quot;field&quot;,false)</b>
+<b> if it &lt;&gt; null</b>
+<b>        step i from itemCount(it) to 1 by -1</b>
+<b>                if visible of item i of it</b>
+<b>                     select item i of it</b>
+<b>                     break step</b>
+<b>                end</b>
+<b>        end</b>
+<b> end</b></font></pre>
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E24"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Coloring text as it is being read</b></font></h3>
+<p><i><u>Question:</u></i><i> In my app, I have some sentences which are read by </i><i>the computer. I've saved the sound of the complete sentence as </i><i>a single wave file and the text in a record field. Is it possible to </i><i>synchronize the color change with the reading as can be seen </i><i>in several commercial titles? </i>
+<h4>
+<font FACE="Arial" COLOR="#004080"><b>Reply1 - use hotwords</b></font></h4>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>John Hall</i></font>
+<p>I've done this before quite simply by converting the text to a series of hotwords and naming them the same as the clip to which the correlate. Then, you set the color attribute of the hotword (though the book hotword color remains none). Works pretty nicely. 
+<h4>
+<font FACE="Arial" COLOR="#004080"><b>Followup question</b></font></h4>
+<p><i>Thanks John for your suggestion. But in my case, I have a single </i><i>wav file for the entire sentence.  Let me give an example to give </i><i>more details.</i>
+<p><i>I have a record field with text &quot;The blue whale is the biggest </i><i>animal&quot;.  I also have a .wav file as a clip which has the voice of </i><i>the entire sentence.</i>
+<p><i>Now when the user presses a button, the wav clip (containing </i><i>the voice) is played.  When the wav file has been payed up to </i><i>&quot;The blue whale ..&quot;, the colour of the three words, &quot;The&quot;, </i><i>&quot;blue&quot; and &quot;whale&quot; must be changed to another color. When </i><i>the wav clip has played upto &quot;The blue whale is ..&quot;, the word </i><i>&quot;is&quot; must *also* be colored.</i>
+<p><i>That is, the words in the sentence (in the record field) must be </i><i>coloured *synchronized* with the wav clip.  Is there any </i><i>method to do this?</i>
+<h4>
+<font FACE="Arial" COLOR="#004080"><b>Reply 2 - record the timings</b></font></h4>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Linda Donelson</i></font>
+<p>I think John is on the right track with you.  If you go into the clip you can record the timing on the clip for each word. Then in a script you could have the &quot;hotword&quot; show up as a different color. This could also be done by making your sentence then placing a little field with only the word you want in the new color you want on top of the word in the original sentence. the script would tell those fields with the single words to hide and show in relation to the timing location for the wave script.  Does this make sense?  Try it out some and see what you get. 
+<h4>
+<font FACE="Arial" COLOR="#004080"><b>Reply 3 - use strokecolor and timers</b></font></h4>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Jean-Jacques Durand</i></font>
+<p>You can  use something like this :
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>  strokecolor of word 2 of text of \</b>
+<b>   </b><b>field &quot;myField&quot; = Blue</b>
+<b>  strokecolor of words 5 to 8 of \</b>
+<b>   </b><b>text of field &quot;myField&quot; = Blue</b></font></pre>
+<p>For the synchronization you can use timers.
+<h4>
+<font FACE="Arial" COLOR="#004080"><b>Reply 4 - check the mmposition of the clip</b></font></h4>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>John Hall</i></font>
+<p>Then you're probably going to have to continually check the mmposition of the clip. I'd create a stack with the list of hotwords and the in point (framenumber) of the clip where the hotword should change. Use a do/until or while loop to check the frame number. When it hits or exceeds the change point frame number, change the old hotword style to none and the new one to color then pop the new values. Seems processor intensive but I bet it would work.
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E25"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Showing a field and then making it disappear </b><b>after a time</b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Jeffrey Rhodes</i></font>
+<p><i><u>Question</u></i><i>: Has anyone implemented a timed pop-up in </i><i>ToolBook?</i>
+<p><u>Answer:</u>  The following code shows a field &quot;LPlans&quot; after one second of staying on a particular button and not clicking on it.
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>to handle mouseEnter</b>
+<b> enteredButton of this page = true</b>
+<b> enteredTime of this page = sysDate </b>
+<b>   </b><b>-- needs to be formatted as seconds</b>
+<b>end mouseEnter</b>
+<b> </b>
+<b>to handle mouseLeave</b>
+<b> enteredButton of this page = false</b>
+<b> hide field &quot;LPlans&quot;  -- this is the &quot;balloon help&quot;</b>
+<b>end mouseLeave</b>
+<b> </b>
+<b>to handle idle</b>
+<b>  if (enteredButton of this page AND \</b>
+<b>   (sysDate - enteredTime of this page &gt;= 1)) </b>
+<b>   -- has been 1 second.  note:  if you want </b>
+<b>   </b><b>-- a smaller time interval, I'd recommend </b>
+<b>   </b><b>-- using a counter here instead of sysDate</b>
+<b>   show field &quot;LPlans&quot; -- balloon help</b>
+<b>  end if</b>
+<b>  forward</b>
+<b>end idle</b>
+<b> </b>
+<b>to handle buttonClick</b>
+<b>   enteredButton of this page = false</b>
+<b>   -- rest of script</b>
+<b>end buttonClick</b></font></pre>
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E26"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Determining the caretLocation of the text </b><b>cursor - in pageUnits</b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Butch Carino, Asymetrix</i></font>
+<p><i><u>Question:</u></i><i> How can I get the exact position of the caretLocation </i><i>in pageUnits? I want to scroll viewer so that the actual position </i><i>of the caratLocation keeps visible even in field, which are larger </i><i>than the actuall screen size.</i>
+<p><u>Answer:</u> What do you need to know the pageUnits?  The caretlocation is relative to the field rather than to the page.  Here is a simple code that will increment the caretLocation as you scroll down a field that has a list of items.  You need to make modifications for all cases.  
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>to handle textscrolled  </b>
+<b> get caretlocation  </b>
+<b> caretlocation = item 1 of it + 1,item 2 of it  </b>
+<b> put it  </b>
+<b>end  </b></font></pre>
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E27"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Calculating the 'corner' coordinates of a </b><b>toolbook object</b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Andy Bulka</i></font>
+<p>We all know that any Toolbook object is visually specified by 4 coordiantes.  The leftmost X position, the rightmost X bounds etc.  The 'bounds' property representes this information as the list:
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>   </b><b>x1,y1,x2,y2</b></font></pre>
+<p>For example the field &quot;results&quot; may have the bounds property as the list of four numbers: 6345,1365,8115,2190
+<p>On a project the other day, I needed to be able to get at the left bottom coordinate of any object.  And then I needed to get at the bottom rightmost coordinate.  How?  Well, all I needed to do was rearrange the information I was getting in the 'bounds' property into an appropriate pair of numbers.  
+<pre>
+<center><img SRC="images/coordsIsolate4.gif" WIDTH="461" HEIGHT="477"></center></pre>
+<p ALIGN="CENTER">
+<center><b>Figure </b><b>16</b><b> - The diagram above represents the four </b><b>coordinate points defining the corners of a square object:</b></center>
+<p>The following script uses the 'bounds' property information and sets the variables c1 c2 c3 and c4 to the four corners of the object:
+<p>    -- put this script inside the object
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>   </b><b>local c1,c2,c3,c4</b>
+<b>   </b><b>-- Determine the 4 coordinates</b>
+<b>   </b><b>get item 1 of my bounds</b>
+<b>   </b><b>item 1 of c1 = it</b>
+<b>   </b><b>item 1 of c2 = it</b>
+<b>   </b><b>get item 2 of my bounds</b>
+<b>   </b><b>item 2 of c1 = it</b>
+<b>   </b><b>item 2 of c3 = it</b>
+<b>   </b><b>get item 3 of my bounds</b>
+<b>   </b><b>item 1 of c3 = it</b>
+<b>   </b><b>item 1 of c4 = it</b>
+<b>   </b><b>get item 4 of my bounds</b>
+<b>   </b><b>item 2 of c2 = it</b>
+<b>   </b><b>item 2 of c4 = it</b>
+<b>   </b><b>request c1 &amp;crlf&amp; c2 &amp;crlf&amp; c3 &amp;crlf&amp; c4</b></font></pre>
+<p>
+<img SRC="images/noteanim.gif" WIDTH="86" HEIGHT="76"><b><i>Editor's Note:</i></b>
+<br><i>The value 'c1' calculated above is actually the same as the </i><i>'position' property viz. the top left bounds of a Toolbook </i><i>object.  Object in this context refers to a Toolbook button, </i><i>graphic, rectangle, field etc.</i>
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E28"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Determining the screen position of the </b><b>selectedTextLine</b><b> of a field.</b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>David Kester</i></font>
+<p><i><u>Question</u></i><u>:</u> <i> I need to find a way to get the location in Page Units </i><i>or Device Units for the selected item in a Single Select ListBox.  </i><i>I can't find a way to do this using normal ToolBook variables </i><i>or methods.</i>
+<p><i>I would be willing to do a Windows API call </i><i>(LB_GETITEMRECT) for this,  but I would also need to obtain </i><i>the Windows Handle for the ListBox,  which I don't know how </i><i>to find, either. Does anyone have any suggestions?</i>
+<p><i><u>Answer:</u></i><i> </i> Here is something I came up with that gives a close position.
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>to get selectPosition  FID</b>
+<b>     local retValue</b>
+<b>     step y from item 2 of bounds of FID \</b>
+<b>   </b><b>  to item 4 of bounds of FID by 50</b>
+<b>          set temp to (item 1 of bounds of \</b>
+<b>   </b><b>   </b><b>   </b><b>   </b><b>   </b><b>FID+50&amp;&quot;,&quot;&amp;y)</b>
+<b>          if item 1 of textFromPoint(temp) \</b>
+<b>   </b><b>   </b><b>   </b><b>   </b><b>of FID = selectedTextLines of FID</b>
+<b>               set retValue to temp</b>
+<b>               break step</b>
+<b>          end</b>
+<b>     end</b>
+<b>     return(retValue)</b>
+<b>end</b></font></pre>
+<p>This just calls the function and puts it in the command window.
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>to handle buttonUP</b>
+<b>     put selectPosition(field &quot;foo&quot;)</b></font></pre>
+<p><b>end</b>
+<h4>
+<font FACE="Arial" COLOR="#004080"><a NAME="I5"></a><b>Getting actual size of text</b><b> - height and width</b></font></h4>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Doyle Armstrong </i></font>
+<p><i><u>Question:</u></i><i> I would like to get the actual size of a text (height and </i><i>width) that has a certain font and a certain size (could be any </i><i>font and any size). (BTW, the popTextGetBounds() function </i><i>uses font face Arial only, so its of no help to me) </i>
+<p><u>Answer:</u>  Here's a trick that is in the Sample Library included with ToolBook:
+<p>Make the text a hotword (select the text, then send createHotword), then get the bounds of the hotword.  Then you can remove the hotword when you're done. 
+
+<hr>
+<p>To access <em>thousands </em>more tips offline <em>-</em> download <a href="https://toolbook.atug.com/" target="_blank">Toolbook Knowledge Nuggets</a>&nbsp; </p>
+
+<p ALIGN="CENTER">
+<a HREF="TOCONV11.htm" TARGET="_self"><img SRC="images/blanprev.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Previous Page"></a>
+<a HREF="TOCONV13.htm" TARGET="_self"><img SRC="images/blannext.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Next Page"></a>
+</body></html>

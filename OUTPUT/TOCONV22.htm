@@ -1,0 +1,369 @@
+<html>
+<head>
+<title>ATUG Toolbook Tips -  Toolbook Tips &amp; Techniques Simulation</title>
+<link REL="ToC" HREF="httoc.htm">
+<link REL="Index" HREF="htindex.htm">
+<link REL="Next" HREF="TOCONV23.htm">
+<link REL="Previous" HREF="TOCONV21.htm"></head>
+<body BGCOLOR="#FFFFFF" BACKGROUND="images/grnmarbl.gif">
+
+
+<p align="center"><a href="https://toolbook.atug.com/" target="_blank">Australian Toolbook User Group</a></p>
+<h2 ALIGN="CENTER">
+<center>Toolbook Tips &amp; Techniques</center></h2>
+<p ALIGN="CENTER">
+<a HREF="TOCONV21.htm" TARGET="_self"><img SRC="images/blanprev.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Previous Page"></a>
+<a HREF="TOCONV23.htm" TARGET="_self"><img SRC="images/blannext.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Next Page"></a>
+
+<p>
+<ul>
+<li>
+<font FACE="Arial" SIZE="+1"><em><strong>Tips on</strong></em><p>
+<a HREF="#E17E17" NAME="LOCE17E17">Simulation</a></font>
+<ol>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E68">Capturing Screen Activity into an Animated GIF </a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E69">Screen Recording using Microsoft CamCorder</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E70">Capturing the screen to the clipboard using Openscript</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E71">Using Hardware to Capture Screen Activity to TV or Video </a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E72">Simulation - Electronic &quot;chalk&quot;</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E73">Simulating a moving cursor</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E74">Simulating pressing a button</a></font></ol></ul>
+<hr WIDTH="80%" ALIGN="CENTER">
+<a NAME="E17E17"></a>
+<pre>
+<center><img SRC="images/directorsChair.gif" WIDTH="88" HEIGHT="52"></center></pre>
+<p>There are quite a few techniques to making demos of screen operations, and running them under software control.  The best solution is probably a video (AVI) or animated GIF, which you can then play and control from within Toolbook - see the articles below on how to create them.
+<p>Lotus ScreenCam is a another good solution - as long as you don't need total software control (you can run a screen cam, but not inside a window of your own application).  ScreenCam offers screen captioning and small file size (it captures windows messages rather than sequences of bitmaps).
+<p>
+<img SRC="images/noteanim.gif" WIDTH="86" HEIGHT="76"><b><i>More Utilities</i></b>
+<br><i>There are some utilities for creating AVI movies from your </i><i>screen activities on Toolbook 6's 2nd CD (e.g. Cybercam will </i><i>generate AVI files of your screeen activity - the files become </i><i>quite large, however.)  Digital Video Producer (also on the </i><i>CD) can then be used to edit the video.</i>
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E68"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Capturing Screen Activity into an Animated </b><b>GIF </b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Andy Bulka</i></font>
+<pre>
+<center><img SRC="images/gifgif.gif" WIDTH="134" HEIGHT="276"></center></pre>
+<p ALIGN="CENTER">
+<center><b>Figure </b><b>25</b><b> - Using Gif Gif Gif - a fantastic product.  The sizes </b><b>of the animated GIFs are tiny in comparison to AVI video!</b></center>
+<p>In my opinion, the best solution to creating and running demos under software control (as long as you don't need sound) is to use toolbook 6's ability to run animated GIFS via an ActiveX gif animator.  To create the GIFS  - use the utility GifgIfgiF.  It is a simple little program for making GIF animations of whatever is shown on your Windows screen.  See Pedagoguery Software 
+<pre>
+<center><a HREF="http://www.peda.com/ggg/">http://www.peda.com/ggg/</a></center></pre>
+<p>Before I make the animated GIF, I run lotus screen cam and make captions that I can pop up over my screen activity. The captions can include arrows with text etc.  I then record the GIF whilst cycling through the screencam captions (I do not record via screen cam, because I use Gif-Gif-Gif to do the screen recording.  I only use Screen Cam's captioning facility).
+<p>You can create fullsize or nicely scaled (44% &amp; 25%) GIF&#146;s by setting an option on the GIG-GIF-GIF dialog box.  The screen captures take remarkably little room &#150; a minutes worth of 25% capture may create a GIF of only 120 k.
+<p>You can then edit your GIF using Microsoft Gif Animator or PaintShop Pro 5's Gif-Animation program.  Beware - the compression you will get out of these programs will not be as good as an unedited Gif-Gif-Gif.
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E69"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Screen Recording using Microsoft CamCorder</b></font></h3>
+<p><i><u>Question:</u></i><i> A few weeks back on this listserv I learned about a </i><i>free screen capture utility by Microsoft called Camcorder.  I </i><i>downloaded this application from Microsoft's WEB site and </i><i>tested it out.  It's pretty nice and in many ways superior to </i><i>ScreenCam and CameraMan.  It saves sceen movies as either </i><i>self contained exe files or as AVI files. </i>
+<pre>
+<center><img SRC="images/camcorderGraphic.gif" WIDTH="413" HEIGHT="354"></center></pre>
+<p ALIGN="CENTER">
+<center><b>Figure </b><b>26</b><b> - Using Microsoft's Camcorder technology - </b><b>which creates an AVI file</b></center>
+<p><i>Here's the problem:  The CamCorder app uses a special </i><i>compression codec when playing back movies in the AVI </i><i>format.  These AVI files will NOT play back on other machines </i><i>unless this special codec is installed.  There are no instructions </i><i>as to how to get these decompressor drivers installed on other </i><i>systems.  I've also noticed that simply installing the application </i><i>on other PC's does not automatically install the compression </i><i>codec (very strange). The video compression codec  is called: </i><i>VID.CGDI: Microsoft Camcorder Reader Codec (CGDI).   I've </i><i>already captured several movies that I want to play on other </i><i>PC's and am unable to play them back. </i>
+<p><i>If anyone has used CamCorder and knows more than I do about </i><i>it's compression codecs I'd appreciate some help.  I also visited </i><i>Microsoft's WEB site and can not find any trace of the the utility. </i><i>(Who would I call at Microsoft to find out more about the </i><i>product).   Also, if you know of a better screen caputure utility </i><i>I'd be interested in your recommendations. - Les Howles</i>
+<p>
+<img SRC="images/noteanim.gif" WIDTH="86" HEIGHT="76"><b><i>Free download</i></b>
+<br><i>Microsoft are actually giving away this screen recording </i><i>software.  Works on win95 and NT.</i>
+<pre>
+<center><a HREF="http://www.microsoft.com/office/office97/camcorder/sysreq.htm">http://www.microsoft.com/office/office97/camcorder/sysreq.htm</a></center></pre>
+<p>The CamCorder home page URL:
+<p><u>http://www.microsoft.com/office/office97/camcorder/</u>
+<h4>
+<font FACE="Arial" COLOR="#004080"><a NAME="I2"></a><a NAME="I3"></a><b>There is a proprietry codec</b></font></h4>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Al Brassell</i></font>
+<p>My tests show that you are correct. I installed MS Camcorder. Put it through its paces (pursuant to the type of work I wanted it to do) I then decided that it was not up to the task and uninstalled it. This is what I found: 
+<p>1. It does install its own codec. I found this out at uninstall time because I ended up having to manually remove the codec. 
+<p>2.  It does indeed save as an .AVI file but it must be used on an &quot;as is&quot; basis. I.e. you cannot load it into Premiere and edit it , add titling transitions or a sound track. It shows up in the construction window as blank black frames. It will not load in other video editors either. 
+<p>3.  As long as Camcorder was installed the .AVIs on my web site showed up as white rectangles when viewed in MSIE 3.01. This is all very sad as I really liked its speed , ease of use and smoothness of playback.
+<br>
+<br>I really need an app like this in my work, but ONLY IF numbers 2&amp;3 above do not obtain. 
+<h4>
+<font FACE="Arial" COLOR="#004080"><b>Followup - More on the CamCorder AVI compression codec</b></font></h4>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Les Howles </i></font>
+<p>Please note that I do not have any problems playing back the exe files created with MS Camcorder (actually these are very nice).  The problem seems to kick in with the type of AVI files the application produces.   It doesn' t appear to be using your standard RLE encoded AVI format.  I think Microsoft is using some other codec. 
+<p>This sounds like the same problem I'm running into (see the other posts on this listserv).   For some unknown reason I have CamCorder installed on one of our PC's and it's capturing and playing videos just fine in the AVI format.  However, none of those same AVI files produced with CamCorder will play on other PC's (all Windows 95).  I get an error message that the proper drivers are not installed. I checked the video compression codecs installed on the one machine that plays back the CamCorder screen caps and I noticed the codec &quot;VID.CGDI:Microsoft CamCorder Reader Codec (cgdi).   It appears as if this codec needs to be installed on any machine you want to play back CamCorder produced AVI files.  Very strange though that when I installed the CamCorder application on a few other PC's the drivers were not installed. It's a mystery to me how to get the compression codec installed on the other systems. 
+<h4>
+<font FACE="Arial" COLOR="#004080"><b>Try HyperCam instead</b></font></h4>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Scott Lawson</i></font>
+<p>Try this screen recorder utility:  HyperCam.  It works on Win 3.1, Win95, WinNT. It records screen movement to an avi file. It is shareware, but I think is records a clean avi, no special codecs required. Find it at: 
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>   </b><b>http://www.hyperionics.com</b></font></pre>
+<h4>
+<font FACE="Arial" COLOR="#004080"><b>Try Capscreen</b></font></h4>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Les Howles </i></font>
+<p>I tested out HyperCam.  Microsoft's CapScrn (not to be confused with CamCorder) is better and free.  I found HyperCam somewhat slow particularly in capturing WWW screens.  CapScrn and HyperCam both do poorly with 16 bit color.  CamCorder was excellent at 16 bit color screens but you know the rest of the story... 
+<h4>
+<font FACE="Arial" COLOR="#004080"><b>Saving Camcorder movies as exe</b></font></h4>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Meg Hale </i></font>
+<p>The following is an excerpt from:
+<p>http://www.microsoft.com/office/officenews/961209/camcorder/camcord.htm
+<p>The movies can be saved as an AVI file or as an EXE file.
+<p>Other users with Camcorder can play the AVI file. The EXE file is portable - people can play it back even if they don't have Camcorder installed on their machine.
+<p>The EXE format is compressed by approximately 40 percent, so the file size is relatively small for a movie. The movie player is included in the EXE file, so the person receiving the file can play the movie on any Windows 95 or Windows NT 3.51 or higher computer without Camcorder or any other program being installed.  Movies can be recorded on computers running the Windows 95 operating system, but not on Windows NT. 
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E70"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Capturing the screen to the clipboard</b><b> using </b><b>Openscript</b></font></h3>
+<p><i><u>Question:</u></i><i> How can I force the Print Scrn event from within </i><i>openScript?</i>
+<p><u>Answer: </u>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Jeff Parkes</i></font>
+<p>This will copy the active window:
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>        get sendKeys(&quot;{wait 100}%{keycopy}&quot;,1)</b></font></pre>
+<p>This should copy the whole screen (% adds the Alt key):
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>        get sendKeys(&quot;{keycopy}&quot;,1)</b></font></pre>
+<p>You need to link the DLL like this first:
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>        linkDLL &quot;tb40win.dll&quot;</b>
+<b>                INT sendKeys (STRING, INT)</b>
+<b>        End</b></font></pre>
+<h4>
+<font FACE="Arial" COLOR="#004080"><b>Commentary on Answer: </b></font></h4>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Tim Barham</i></font>
+<p>The trick above is that the key value you send is not the key value you might expect to send. You expect to have to send keyPrint, but investigation reveals the actual key message sent when you hit the PrintScreen key is keyCopy, as Jeff indicates. 
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E71"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Using Hardware to Capture Screen Activity to </b><b>TV or Video</b><b> </b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Tom Hall</i></font>
+<p>I have used a product called AverKey 3 that sells for around $300 US as a VGA to PAL/NTSC converter.  I have been fairly pleased based upon the price I paid.  I really like the zoom and pan features of this device using its remote control.  The only thing is now if I use this, I find myself with the mouse in one hand and the remote in the other all the time.  I connect this to a 30&quot; TV and get good results as well as to a standard video projector that I can then project to a 6 ft screen.  This is a good device to take on the road because it is just a little black box with cables and remote.  I really don't do anything different in the setup of my books for this type of display. The specs show that it is compatible with standard VGA modes up to 800 x 600, and has both composite and S-Video outputs. 
+<p>
+<img SRC="images/noteanim.gif" WIDTH="86" HEIGHT="76"><i>P.S. </i><i>The Averkey is an external device that takes everything on </i><i>your computer screen and converts it to a video signal which </i><i>you can play directly on your TV or capture on your video </i><i>recorder. It is a hardware only solution and requires no </i><i>drivers (thank goodness!).  It comes with a remote control </i><i>which allows you to pan and zoom.  </i>
+<br><i>If you want to incorporate these videos into software, you of </i><i>course can then use a video capture device to create AVI files </i><i>and play them through Toolbook.  - Andy </i>
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E72"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Simulation - Electronic &quot;chalk&quot;</b></font></h3>
+<pre>
+<center><img SRC="images/buttonWithHandIcon.gif" WIDTH="107" HEIGHT="75"></center></pre>
+<p><i><u>Question</u></i><u>:</u> <i> I am trying to  set up a way to draw a freehand line </i><i>in toolbook (at the reader level) to use as electronic chalk </i><i>during presentations. It could be activated from a button or </i><i>icon or from the menu. I would like it to work using a </i><i>rightbuttondown handler.  Has anyone tried something </i><i>similar with any luck?  I am using version 3.0.</i>
+<h5><i>Reply 1</i></h5>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Tim Pearson, Asymetrix</i></font>
+<p>Here's an &quot;off the cuff&quot; approach:
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>to handle rightButtonDown</b>
+<b>     system s_chalkOn, s_startPos</b>
+<b>     set s_chalkOn to TRUE</b>
+<b>     clear s_startPos</b>
+<b>end</b>
+<b>to handle buttonStillDown loc</b>
+<b>     system s_chalkOn, s_startPos</b>
+<b>     if s_chalkOn</b>
+<b>          if s_startPos &lt;&gt; NULL</b>
+<b>             draw line from s_startPos to loc</b>
+<b>          end</b>
+<b>          set s_startPos to loc</b>
+<b>     end</b>
+<b>end</b>
+<b>to handle rightButtonUp</b>
+<b>     system s_chalkOn</b>
+<b>     set s_chalkOn to FALSE</b>
+<b>end</b>
+<b>to handle clearChalk</b>
+<b>     select all line</b>
+<b>     send clear</b>
+<b>end</b></font></pre>
+<h5><i>Reply 2 - another approach</i></h5>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>David Kester </i></font>
+<p>Try this script.  Its a little slow but its get pretty close to doing what you want.  I just put all this script in the page level.  Although this script is 3.0 syntax.  There is no reason this same idea wouldn't work in older versions of Toolbook.
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>to handle buttonDown loc</b>
+<b>     system MyLines</b>
+<b>     if myLines = null</b>
+<b>          myLines = &quot;&quot;</b>
+<b>     end</b>
+<b>     draw angledLine from loc to loc</b>
+<b>     set lineStyle of selection to &quot;2&quot;</b>
+<b>     push selection onto MyLines</b>
+<b>end</b>
+<b>to handle buttonStillDown loc</b>
+<b>     system myLines</b>
+<b>     if itemCount(vertices of selection) &lt; 20</b>
+<b>          vertices of selection = \</b>
+<b>   </b><b>   </b><b>   </b><b>   </b><b>vertices of selection&amp;&quot;,&quot;&amp;loc</b>
+<b>     else</b>
+<b>          vertices of selection = \</b>
+<b>   </b><b>   </b><b>   </b><b>   </b><b>vertices of selection&amp;&quot;,&quot;&amp;loc</b>
+<b>          draw angledLine from loc to loc</b>
+<b>          set lineStyle of selection to &quot;2&quot;</b>
+<b>          push selection onto MyLines</b>
+<b>     end</b>
+<b>end</b>
+<b> --This part just removes the lines.</b>
+<b>to handle RightbuttonUp</b>
+<b>     system MyLines</b>
+<b>     step i from 1 to itemCount(myLines)</b>
+<b>          select item i of MyLines</b>
+<b>          send cut</b>
+<b>     end</b>
+<b>     myLines = &quot;&quot;</b>
+<b>end</b></font></pre>
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E73"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Simulating a moving cursor</b></font></h3>
+<p>
+<img SRC="images/noteanim.gif" WIDTH="86" HEIGHT="76"><b><i>Andy Bulka</i></b>
+<p>Use Toolbook's path animation facility to animate a bitmap of a cursor moving across the screen, clicking on things.
+<p>You create several path animations for the same cursor bitmap then play them one after another.  Painstaking, but it works.  See the demo book that comes with Toolbook Assistant to see this method used to great effect.
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E74"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Simulating pressing a button</b></font></h3>
+<p><i><u>Question</u></i><u>:</u> <i> I am developing a self-demo program and want to </i><i>simlulate the mouse being moved and buttons being clicked.  I </i><i>tried the &quot;Record&quot; feature but it fails to </i>
+<p><i>record anything in &quot;Reader&quot; mode, and in any case, it doesn&#146;t </i><i>show buttons being depressed or the mouse cursor moving.  </i><i>All I can think of doing is writing hundreds of scripts like:</i>
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>    mouseposition of this window =3000,3000</b>
+<b>    pause 20</b>
+<b>    mouseposition of this window= 2800,2800</b>
+<b>    pause 20</b>
+<b>       .....</b>
+<b> </b></font></pre>
+<p><i>And to make toolbook buttons depress:</i>
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>  mouseposition of this window =300,400 -- but pos</b>
+<b>  invert of button &quot;1&quot; of this background = true</b>
+<b>  pause 1 seconds</b>
+<b>  invert of button &quot;1&quot; of this background  = false</b>
+<b>  send buttonClick to button &quot;1&quot; of this background</b></font></pre>
+<p><i>It's too complex to develop a self-demo program in this way.  I </i><i>think it will be simpler if Toolbook provide a command like:</i>
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>  press button &quot;1&quot;</b></font></pre>
+<h5><i>Reply 1 &#150; simulate buttonclick code</i></h5>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Jeffrey Ayars,   Asymetrix Corporation</i></font>
+<p>You are on the right track with your script to set sysMousePosition and then Invert the button.  There is not a built in command like &quot;press button 1&quot; like you asked for but you can write such a function.  I got the mvCursor script from the mmTour.tbk sample book that came with MTB 1.53.
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b> </b>
+<b>to handle simulateButtonClick objRef, </b><b>initialCursorPosition, iterations, pauseTicks</b>
+<b>   if isObject(objRef) and object of \</b>
+<b>   </b><b>   </b><b>   </b><b>objRef is &quot;button&quot;</b>
+<b>      centerPos = (item 1 of size of objRef / 2) \</b>
+<b>   </b><b>   </b><b>   </b><b>   </b><b>+ item 1 of position of objRef, \</b>
+<b>   </b><b>   </b><b>   </b><b>   </b><b>(item 2 of size of objRef / 2) + \</b>
+<b>   </b><b>   </b><b>   </b><b>   </b><b>item 2 of position of objRef</b>
+<b>      if initialCursorPosition is null</b>
+<b>         initialCursorPosition = sysMousePosition</b>
+<b>      end</b>
+<b> </b>
+<b>      if pauseTicks is null</b>
+<b>         pauseTicks = 0</b>
+<b>      end</b>
+<b> </b>
+<b>      if iterations is null</b>
+<b>         iterations = 20</b>
+<b>      end</b>
+<b> </b>
+<b>      send mvCursor initialCursorPosition, \</b>
+<b>   </b><b>   </b><b>   </b><b>centerPos, iterations, pauseTicks</b>
+<b>      set invert of objRef to TRUE</b>
+<b>      pause 3*pauseTicks</b>
+<b>      set invert of objRef to FALSE</b>
+<b>      send buttonClick to objRef</b>
+<b>   end</b>
+<b>end</b>
+<b> </b>
+<b>to handle mvcursor initialPos, endPos, iterations, </b><b>PauseTicks</b>
+<b> </b>
+<b>    x1 = item 1 of initialPos</b>
+<b>    y1 = item 2 of initialPos</b>
+<b> </b>
+<b>    x2 = item 1 of endPos</b>
+<b>    y2 = item 2 of endPos</b>
+<b> </b>
+<b>    set ydif to (y1-y2)/pi</b>
+<b>    set xdif to (x2-x1)/2</b>
+<b>    if ydif &lt; 0</b>
+<b>        set ArcDirection to 1</b>
+<b>    else</b>
+<b>        set ArcDirection to -1</b>
+<b>    end</b>
+<b>    set theta to pi</b>
+<b>    set incr to pi/iterations</b>
+<b> </b>
+<b>    while theta &gt; 0</b>
+<b>        set y to ydif*(theta + ArcDirection \</b>
+<b>   </b><b>   </b><b>   </b><b>   </b><b>* sin(theta))+y2</b>
+<b>        set x to xdif*(1+cos(theta))+x1</b>
+<b>        decrement theta by incr</b>
+<b>        set sysmouseposition to x,y</b>
+<b>        pause pauseTicks ticks</b>
+<b>        mmYield</b>
+<b>    end</b>
+<b>    set sysmouseposition to x2,y2 </b>
+<b>   </b><b>   </b><b>-- to cover any roundoff error</b>
+<b>end</b>
+<b> </b></font></pre>
+<p>To use it place the scripts in the book or a system book and just sent simulateButtonClick.  To press a button named &quot;OK&quot; you send simulateButtonClick button OK, null, 50, 10
+<h5><i>Reply 2 &#150; simulate cursor - more code</i></h5>
+<p>There are much easier and more elegant ways to handle simulated mousemove and mouseclicks for demo books. Take a look at the script in the CBT Tutor book that handles cursorMove.
+<p> 
+<p>Specifically, this Asymetrix script is:
+<p> 
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>to handle cursorMove x2, y2</b>
+<b>        system sRate</b>
+<b>        x1 = item 1 of sysMousePosition</b>
+<b>        y1 = item 2 of sysMousePosition</b>
+<b>        dX = x2-x1</b>
+<b>        dY = y2-y1</b>
+<b>        hyp = Hypotenuse(abs(x2-x1),abs(y2-y1))</b>
+<b>        dur = hyp/sRate                                    </b><b>                     </b>
+<b>        time = User_GetTicks()  -- in ticks</b>
+<b>        elapsed = 0</b>
+<b>        while elapsed &lt;= dur and dur &lt;&gt; 0</b>
+<b>                percent = elapsed/dur</b>
+<b>                sysMousePosition = (dX*percent) \</b>
+<b>   </b><b>   </b><b>   </b><b>   </b><b>   </b><b>+ x1, (dY*percent) + y1</b>
+<b>                send cbtPause 1</b>
+<b>                elapsed = User_GetTicks() - time</b>
+<b>                mmYield</b>
+<b>        end</b>
+<b>        sysMousePosition = x2,y2</b>
+<b>        send cbtPause 500</b>
+<b>end</b></font></pre>
+<p> 
+<p>You'll also have to incorporate the cbtPause handler in the book but this works very nicely and I've stolen the code on more than one occasion. In fact the whole CBT demo book is a good tutorial. If you haven't gone through it before and looked at scripts, it's well worth the time. 
+
+<hr>
+<p>To access <em>thousands </em>more tips offline <em>-</em> download <a href="https://toolbook.atug.com/" target="_blank">Toolbook Knowledge Nuggets</a>&nbsp; </p>
+
+<p ALIGN="CENTER">
+<a HREF="TOCONV21.htm" TARGET="_self"><img SRC="images/blanprev.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Previous Page"></a>
+<a HREF="TOCONV23.htm" TARGET="_self"><img SRC="images/blannext.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Next Page"></a>
+</body></html>

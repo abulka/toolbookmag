@@ -1,0 +1,174 @@
+<html>
+<head>
+<title>ATUG Toolbook Tips -  Toolbook Tips &amp; Techniques Text - Printing</title>
+<link REL="ToC" HREF="httoc.htm">
+<link REL="Index" HREF="htindex.htm">
+<link REL="Next" HREF="TOCONV17.htm">
+<link REL="Previous" HREF="TOCONV15.htm"></head>
+<body BGCOLOR="#FFFFFF" BACKGROUND="images/grnmarbl.gif">
+
+
+<p align="center"><a href="https://toolbook.atug.com/" target="_blank">Australian Toolbook User Group</a></p>
+<h2 ALIGN="CENTER">
+<center>Toolbook Tips &amp; Techniques</center></h2>
+<p ALIGN="CENTER">
+<a HREF="TOCONV15.htm" TARGET="_self"><img SRC="images/blanprev.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Previous Page"></a>
+<a HREF="TOCONV17.htm" TARGET="_self"><img SRC="images/blannext.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Next Page"></a>
+
+<p>
+<ul>
+<li>
+<font FACE="Arial" SIZE="+1"><em><strong>Tips on</strong></em><p>
+<a HREF="#E17E12" NAME="LOCE17E12">Text - Printing</a></font>
+<ol>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E42">How do I print the text of a field?</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E43">Printing transparent fields &amp; rectangles</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E44">Printing A Bitmap Resource Displayed In A Stage</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E45">Experiencing different Wordwrap effects in fields on screen vs. print?</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E46">How to print a single field's text contents over multiple pages</a></font></ol></ul>
+<hr WIDTH="80%" ALIGN="CENTER">
+<a NAME="E17E12"></a>
+<pre>
+<center><img SRC="images/printerIcon.gif" WIDTH="220" HEIGHT="209"></center></pre>
+<p>You can print almost everything in Toolbook.  Each Page can be printed like a screen shot.  Multiple pages (screen shots) can fit onto a page.  There's even a print preview feature - 
+<p>
+<img SRC="images/noteanim.gif" WIDTH="86" HEIGHT="76"><b><i>Warning</i></b>
+<br><i>You really should think twice before offering the preview </i><i>feature to users of your finished Toolbook program - since </i><i>the preview facility allows users to access critical parameters as </i><i>to what Toolbook will print.</i>
+<p>Toolbook also has a recordfield reporting facility, allowing you to produce longer text and database oriented reports.
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E42"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>How do I print the text of a field?</b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Greg Breeden and Asymetrix Corporation</i></font>
+<p>Sometimes it is desireable to print the text of a field or the text of several fields.  ToolBook only allows either record fields or whole pages to be printed.  The script below gives an example of using the shellExecute Windows API command to pass a file to another windows application to perform the printing.  The following handler writes the text of fields to a file, then uses shellExecute to print that file from the program associated with the .TXT extension.
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>to handle buttonClick</b>
+<b>  </b><b>   </b><b>linkdll &quot;SHELL&quot;</b>
+<b>    </b><b>   </b><b>WORD shellExecute( WORD, STRING, STRING,</b>
+<b>   </b><b>   </b><b>   </b><b> STRING, STRING,INT);</b><b>   </b><b>end</b></font></pre>
+<p>-- This section creates the fileName.
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>        fileName = name of this book</b>
+<b>        while last char of fileName  &quot;\&quot;</b>
+<b>                clear last char of fileName</b>
+<b>        end</b>
+<b>        fileName = fileName &amp; &quot;tbprin.txt&quot;</b></font></pre>
+<p>-- Create the text file to send to the printer.
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>        createFile fileName</b>
+<b>        writeFile text of recordField &quot;Title&quot; \</b>
+<b>   </b><b>   </b><b>   </b><b>   </b><b>   </b><b>&amp; &quot;  &quot; to fileName</b>
+<b>        writeFile text of recordField &quot;Author&quot; \</b>
+<b>   </b><b>   </b><b>   </b><b>   </b><b>   </b><b>&amp; &quot;  &quot; to fileName</b>
+<b>        closeFile fileName</b></font></pre>
+<p>-- Runs the program associated with 
+<p>-- the .TXT extension and prints the file.
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>   </b><b>   </b><b> get shellExecute( sysWindowHandle, print&quot;,\</b>
+<b>   </b><b>   </b><b>   </b><b>   </b><b>   </b><b>   </b><b>fileName,&quot;&quot;,&quot;c:\&quot;,0)</b>
+<b>end</b></font></pre>
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E43"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Printing transparent fields &amp; rectangles</b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Greg Johnson</i></font>
+<p><i><u>Question:</u></i><i> I have problem.   Each page of my toolbook file has </i><i>several transparent fields and groups of transparent rectangles . </i><i>  while on-screen everything looks fine, but when i print the </i><i>fields and rectangles are not printed transparent.    </i>
+<p><u>Answer</u>:  When you select the print function look at the bottom of the dialog box.  You will see a check button for &quot;print as Bitmap&quot;  this will print the fields transparent. 
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E44"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Printing A Bitmap Resource Displayed In A </b><b>Stage</b></font></h3>
+<p><i><u>Question</u></i><u>:</u> <i>  We've been trying to print a picture in a stage. But </i><i>our script print all components in the page except the picture in </i><i>stage. Is it possible to print the picture in the stage ? </i>
+<pre>
+<center><img SRC="images/printwnd.gif" WIDTH="198" HEIGHT="237"></center></pre>
+<h4>
+<font FACE="Arial" COLOR="#004080"><a NAME="I2"></a><b>Using the special system book PRINTWND.SBK</b><b> to print a stage</b></font></h4>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Asymetrix Knowledge Base Article</i></font>
+<p>A graphic shown in a stage is actually displayed in a separate window, so ToolBook has no control over it. 
+<p>To print a page that contains a stage with a graphic, use the PRINTWND.SBK system book that is distributed with ToolBook. 
+<p>To use the PRINTWND.SBK, follow these steps. 
+<ul>
+<li>Either add the system book as an extension using the Add Extension option from the File menu or push the system book onto the sysBooks stack.
+<li>From the File menu at Author level choose Print Window.
+<li>Select the desired options from the Print Window dialog box. 
+<li>Click OK to dismiss the dialog box and the entire ToolBook page will be printed including any graphics displayed in stages.
+</ul>
+<p>This system book can also be accessed directly by sending the PrintWindow message or calling the system books functions directly.  See the book script for the PRINTWND.SBK system book for more details.  
+<h4>
+<font FACE="Arial" COLOR="#004080"><a NAME="I3"></a><b>Further tips on using the &quot;printwnd.sbk&quot; solution</b></font></h4>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Craig McDonald</i></font>
+<p>Make sure you get printwnd.sbk from the ftp site.  Keep it in the directory with your runtime/author environment or in the directory with the application. 
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>to handle buttonClick</b>
+<b> if not(sysBooks contains &quot;printwnd.sbk&quot;)</b>
+<b>  push &quot;printwnd.sbk&quot; onto sysbooks</b>
+<b> end</b>
+<b> send printWindow windowHandle of \</b>
+<b>   </b><b>mainWindow,1,1,0,0,&quot;5xxGUI&quot;,TRUE,TRUE,FALSE</b>
+<b>end</b></font></pre>
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E45"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Experiencing different Wordwrap effects in </b><b>fields on screen vs. print</b><b>?</b></font></h3>
+<p><i><u>Question:</u></i><i>  The on-screen and printer wordwrap in a &quot;wrap&quot; </i><i>field are behaving differently.  My TBKII program shrinks a </i><i>field so the text just fits (by decreasing the field height until </i><i>textoverflow is greater than 0 then increasing it back so </i><i>textoverflow is zero.)  Using this algorithm, the text fits fine </i><i>on-screen.  However, on the printer occasionally a word that </i><i>fits on-screen will wrap down to the next line, increasing the </i><i>length of the text block by one line so it no longer fits in the </i><i>field. </i>
+<h4>
+<font FACE="Arial" COLOR="#004080"><a NAME="I4"></a><b>Reply</b></font></h4>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Denny Dedmore </i></font>
+<p>You are dealing with Font Metrics, essentially the 75 dpi screen resolution and 300-600 dpi of a printer (with Kerning controls and such) will cause the two to display differently when viewed (or printed in the case of a printer).  The only way to guarantee the same look is to print the page as a Bitmap, (available in your printing options). 
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E46"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>How to print a single field's text contents over </b><b>multiple pages</b></font></h3>
+<p><i><u>Question</u></i><u>:</u> <i> Any recommendations on handling complex and </i><i>fancy formatted printing.  </i>
+<p><i>In my application the user has considerable flexibility to edit </i><i>and add text, so I can't be certain the fields will print on one </i><i>page </i>
+<h4>
+<font FACE="Arial" COLOR="#004080"><a NAME="I5"></a><b>Reply - Use the Toolbook Report Generator</b></font></h4>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Kevin, The Arben Group, Inc.</i></font>
+<p>How are you printing the page?  Are you using print page not as a bitmap, print page as a bitmap, or printing a report?  
+<p>It sounds as if you should have a new background with one page.  
+<ul>
+<li>Copy the formatted text to the recordfield on the print page (and background), and then
+<li>Print a report using that recordfield only.
+</ul>
+<pre>
+<center><img SRC="images/FileReport.gif" WIDTH="66" HEIGHT="254"></center></pre>
+<p ALIGN="CENTER">
+<center><b>Figure </b><b>18</b><b> - How to activate the print report command </b><b>fromtheToolbookuserinterface.  You can also access this </b><b>command, as always, using script.</b></center>
+<p>When printing a report, ToolBook will take care of printing multiple pages for you.  You will need to try different report settings to get the style that you want. 
+<pre>
+<center><img SRC="images/FileReportDialog.gif" WIDTH="350" HEIGHT="228"></center></pre>
+<p ALIGN="CENTER">
+<center><b>Figure </b><b>19</b><b> - The Print Report Dialog box</b></center>
+<pre>
+<center><img SRC="images/multipg.gif" WIDTH="300" HEIGHT="352"></center></pre>
+<p ALIGN="CENTER">
+<center><b>Figure </b><b>20</b><b> </b><b>- An example of the Print preview facility of the </b><b>Toolbook Report generator.</b></center>
+
+<hr>
+<p>To access <em>thousands </em>more tips offline <em>-</em> download <a href="https://toolbook.atug.com/" target="_blank">Toolbook Knowledge Nuggets</a>&nbsp; </p>
+
+<p ALIGN="CENTER">
+<a HREF="TOCONV15.htm" TARGET="_self"><img SRC="images/blanprev.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Previous Page"></a>
+<a HREF="TOCONV17.htm" TARGET="_self"><img SRC="images/blannext.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Next Page"></a>
+</body></html>

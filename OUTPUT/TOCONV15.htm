@@ -1,0 +1,145 @@
+<html>
+<head>
+<title>ATUG Toolbook Tips -  Toolbook Tips &amp; Techniques Rich Text Format (RTF)</title>
+<link REL="ToC" HREF="httoc.htm">
+<link REL="Index" HREF="htindex.htm">
+<link REL="Next" HREF="TOCONV16.htm">
+<link REL="Previous" HREF="TOCONV14.htm"></head>
+<body BGCOLOR="#FFFFFF" BACKGROUND="images/grnmarbl.gif">
+
+
+<p align="center"><a href="https://toolbook.atug.com/" target="_blank">Australian Toolbook User Group</a></p>
+<h2 ALIGN="CENTER">
+<center>Toolbook Tips &amp; Techniques</center></h2>
+<p ALIGN="CENTER">
+<a HREF="TOCONV14.htm" TARGET="_self"><img SRC="images/blanprev.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Previous Page"></a>
+<a HREF="TOCONV16.htm" TARGET="_self"><img SRC="images/blannext.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Next Page"></a>
+
+<p>
+<ul>
+<li>
+<font FACE="Arial" SIZE="+1"><em><strong>Tips on</strong></em><p>
+<a HREF="#E17E11" NAME="LOCE17E11">Rich Text Format (RTF)</a></font>
+<ol>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E37">RTF traps</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E38">Importing Large RTF Text Files</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E39">Getting Rich Text from Word into Toolbook</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E40">Fields with graphics - removing resources  for graphics that have been deleted </a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E41">Getting graphics from RTF files into Toolbook text fields</a></font></ol></ul>
+<hr WIDTH="80%" ALIGN="CENTER">
+<a NAME="E17E11"></a>
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E37"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>RTF traps</b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>William McKee</i></font>
+<ul>
+<li>Toolbook does not handle all legitimate RTF codes (for example, bullets and columns)
+<li>Be careful with centered headings; it will cause the complete text field to be centered
+<li>RTF files are larger than an equivalent text file and use more memory when imported into Toolbook
+<li>There appears that there is no EOF character to mark the end of an RTF file
+</ul>
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E38"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Importing Large RTF Text Files</b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Asymetrix Tech Support</i></font>
+<p><i><u>Question</u></i><u>:</u> <i> is there any possibility of importing a RTF-file of </i><i>about 300k into ToolBook? </i>
+<p><i><u>Answer:</u></i><i> </i> As soon as you start chunking a rtf file you will have problems since the main header on the first chunk is not present on the additional chunks, thus the additional pieces are incomplete.  I know of no practical way to chunking an rtf file so that the problem you are encountering will not occur.  A regular text file will not be a problem. 
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E39"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Getting Rich Text from Word into Toolbook</b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>John Gossman, Asymetrix</i></font>
+<p><i><u>Question</u></i><i>: I have some text in word I want to import into </i><i>Toolbook and preserve formatting.  From Word I saved the file </i><i>as a richtext format file, foo.rtf. Then I created this button with </i><i>the following handle</i>
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>to handle buttonClick</b>
+<b>openFile &quot;foo&quot;</b>
+<b>readFile &quot;foo&quot; to EOF</b>
+<b>richText of field &quot;foo&quot; = It</b>
+<b>closeFile &quot;foo&quot;</b>
+<b>end buttonClick</b></font></pre>
+<p><i>After I run this program I get the proper text in field &quot;foo&quot;, but it </i><i>is on one long line if the field is set to no wrap.  If the field is set </i><i>to wrap I get all the text but it is all mixed up. I also tried to use </i><i>the copy/paste command but also there I get mixed up text. </i>
+<p><u>Answer:</u> This is a bug in Word.  If you copy the RTF from Word into WordPad (which has special handling for Word's RTF) and then paste to Toolbook it works fine. 
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E40"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Fields with graphics - removing resources  for </b><b>graphics that have been deleted </b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Butch Carino [Asymetrix]</i></font>
+<p>Whenever you import an RTF file with a graphic ToolBook will always make that graphic a resource. The only way to get rid of that resource is to use this to delete any unused resources. 
+<p>The following script will search bitmap, cursor, icon, menuBar, and palette resources of a book and delete the unused resources. Rather than searching through all resources to determine which are used, use the following script. 
+<p>It's benefical to remove unused resources in order to reduce the book size.
+<p>Place the following script into the script of a button:
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>to handle buttonClick</b>
+<b> resTypeList = &quot;bitmap,cursor,icon,menuBar,palette&quot;</b>
+<b> step i from 1 to itemCount(resTypeList)</b>
+<b>  resList = resourceList(item i of resTypeList,\</b>
+<b>   </b><b>   </b><b>   </b><b>   </b><b>   </b><b>   </b><b>   </b><b>this book)</b>
+<b>  step j from 1 to itemCount(resList)</b>
+<b>   temp = &quot;resNum = item 1 of resourceInfo of&quot; &amp;&amp; \</b>
+<b>    </b><b>   </b><b>   </b><b>   </b><b>   </b><b>   </b><b>item j of resList</b>
+<b>   execute temp</b>
+<b>   if resNum = 0 -- resource unused</b>
+<b>    temp = &quot;remove resource&quot; &amp;&amp; \</b>
+<b>   </b><b>   </b><b>item j of resList &amp;&amp; &quot;of this book&quot;</b>
+<b>    execute temp</b>
+<b>   end if</b>
+<b>  end step</b>
+<b> end step</b>
+<b>end</b></font></pre>
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E41"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Getting graphics from RTF files into Toolbook </b><b>text fields</b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Denny - Tech Support</i></font>
+<p><i><u>Question</u></i><u>:</u> <i>  Why doesn't Toolbook let me use RTF files with </i><i>graphics in it? I need the graphics to explain some concepts.  </i><i>Please,  what can I do? </i>
+<pre>
+<center><img SRC="images/rtfGraphicsField.gif" WIDTH="350" HEIGHT="309"></center></pre>
+<p ALIGN="CENTER">
+<center><b>Figure </b><b>17</b><b> - A Toolbook text field containing text and </b><b>graphics from an imported RTF file.</b></center>
+<p><i><u>Answer:</u></i><i> </i> Follow these steps:
+<ul>
+<li>Remove the Graphics from the RTF file and 
+<li>Resave, then 
+<li>Add the text to ToolBook and then 
+<li>Manually add the graphics via the import Graphic function. 
+</ul>
+<p>
+<img SRC="images/noteanim.gif" WIDTH="86" HEIGHT="76"><b><i>Picture Sizing Tip</i></b><i>:</i>
+<br><i>In order to change the size of an imported graphic there are two </i><i>options: you can do this before you paste the graphic into the </i><i>text field or make adjustments after the paste:  To resize the </i><i>graphic first (which is the easiest option) do the following:</i>
+<br>
+<br><i>1. Use the menu File / Import Graphic</i>
+<br><i>2. Resize as necessary</i>
+<br><i>3. Properties/Convert to turn it into a Toolbook picture</i>
+<br><i>4. Edit/Cut then position your cursor in the field text, Paste.</i>
+<br>
+<br><i>Alternatively, Skip the resize and convert steps (steps 2 &amp; 3).  </i><i>Later on you can edit the picture in the text field by slecting </i><i>the graphic, right-mouse-click, select graphic.  You will then </i><i>be in the resource manager, where you can edit the bitmap by </i><i>clicking on 'Edit'.  The bitmap editor has a facility to resize and </i><i>decrease colors in you graphic - important, since more colors </i><i>mean bigger toolbook file sizes.  -Andy Bulka</i>
+
+<hr>
+<p>To access <em>thousands </em>more tips offline <em>-</em> download <a href="https://toolbook.atug.com/" target="_blank">Toolbook Knowledge Nuggets</a>&nbsp; </p>
+
+<p ALIGN="CENTER">
+<a HREF="TOCONV14.htm" TARGET="_self"><img SRC="images/blanprev.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Previous Page"></a>
+<a HREF="TOCONV16.htm" TARGET="_self"><img SRC="images/blannext.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Next Page"></a>
+</body></html>

@@ -1,0 +1,155 @@
+<html>
+<head>
+<title>ATUG Toolbook Tips -  Toolbook Tips &amp; Techniques Selecting, unselecting and replacing text</title>
+<link REL="ToC" HREF="httoc.htm">
+<link REL="Index" HREF="htindex.htm">
+<link REL="Next" HREF="TOCONV11.htm">
+<link REL="Previous" HREF="TOCONV~9.htm"></head>
+<body BGCOLOR="#FFFFFF" BACKGROUND="images/grnmarbl.gif">
+
+
+<p align="center"><a href="https://toolbook.atug.com/" target="_blank">Australian Toolbook User Group</a></p>
+<h2 ALIGN="CENTER">
+<center>Toolbook Tips &amp; Techniques</center></h2>
+<p ALIGN="CENTER">
+<a HREF="TOCONV~9.htm" TARGET="_self"><img SRC="images/blanprev.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Previous Page"></a>
+<a HREF="TOCONV11.htm" TARGET="_self"><img SRC="images/blannext.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Next Page"></a>
+
+<p>
+<ul>
+<li>
+<font FACE="Arial" SIZE="+1"><em><strong>Tips on</strong></em><p>
+<a HREF="#E17E6" NAME="LOCE17E6">Selecting, unselecting and replacing text</a></font>
+<ol>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E14">How to unselect text</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E15">Selecting some text and then clicking on a button to tell you what it is</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E16">Replacing text using the offSet() function </a></font></ol></ul>
+<hr WIDTH="80%" ALIGN="CENTER">
+<a NAME="E17E6"></a>
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E14"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>How to unselect text</b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Morten Hjerde</i></font>
+<p><i><u>Question:</u></i><i> I need to unselect text. Is there a way to unselect text </i><i>in a recordfield without actually changing the text and without </i><i>selecting some other text instead?</i>
+<pre>
+<center><img SRC="images/textSelect1.gif" WIDTH="350" HEIGHT="108"></center></pre>
+<h4>
+<font FACE="Arial" COLOR="#004080"><b>Use the focus</b></font></h4>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Jeffrey M. Rhodes</i></font>
+<p>Try putting this line in when you want to deselect the text:  
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>focus = null  </b></font></pre>
+<h4>
+<font FACE="Arial" COLOR="#004080"><b>Use caretLocation</b></font></h4>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Robert G. Bush </i></font>
+<p>I solved a similar problem, one morning, the other day.  Some of this stuff is arcane, but useful...  Here is some sample code; I think you'll get the idea:  
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>get item 2 of caretLocation  </b>
+<b>item 2 of caretLocation = (It+1)  </b></font></pre>
+<p>The text that was highlighted in your recordField becomes  UNhighlighted.  Voila!
+<h4>
+<font FACE="Arial" COLOR="#004080"><b>Another caretLocation solution</b></font></h4>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>James R. Johnston </i></font>
+<p>Variation on this suggestion (my favorite way of unselecting text -- when I want the focus to remain in the field):  'caretLocation = Beg';    OR    'caretLocation = End',  -- if you want the caret location to be at the very beginning or the end of the text in the field.  
+<h4>
+<font FACE="Arial" COLOR="#004080"><b>Simplest caretLocation solution</b></font></h4>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Stephan Hilchenbach</i></font>
+<p>You can even say  
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b> caretLocation = caretLocation  </b></font></pre>
+<p>That will unselect any selected text and the caretLocation doesn't change.  
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E15"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Selecting some text and then clicking on a </b><b>button to tell you what it is</b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Butch Carino, Asymetrix</i></font>
+<p><i><u>Question:</u></i><i> I'm trying to find a way to allow readers to print </i><i>selections of text from fields (not record fields). I would like </i><i>to use the textToPrinter command substituting a previously </i><i>defined system variable for the string. Only trouble is, I cant </i><i>figure out how to push the very transient selectedtext value </i><i>into a system variable.  How do you move selectedtext (ie text </i><i>that the reader has highlighted by dragging) into a system </i><i>variable. Everytime I try using a buttonclick handler the </i><i>selected text is deselected before it can get pushed/put. I'm </i><i>using MMTB 4.0  </i>
+<pre>
+<center><img SRC="images/textSelect1.gif" WIDTH="350" HEIGHT="108"></center></pre>
+<p ALIGN="CENTER">
+<center><b>Figure </b><b>8</b><b> - How do you select some text and then click a </b><b>button to report what it is?  As soon as you click on the </b><b>button, the text is de-selected!</b></center>
+<p><i><u>Answer:</u></i>  I came up with a solution that may help.  If you place a leaveField handler in your field, use a system variable or userProperty to store the selected text, then you can recall that value within another handler.  Here is an example:  
+<pre>
+<font FACE="Courier New" COLOR="#800040">-- script of a field where your user is selecting
+-- text  
+<b>to handle </b><b>leaveField</b><b>  </b>
+<b>   system foo  </b>
+<b>   foo = selectedText  </b>
+<b>end  </b>
+-- script of a button (for testing)
+<b> </b>
+<b>to handle buttonClick  </b>
+<b>   system foo  </b>
+<b>   request foo   </b>
+<b>end  </b></font></pre>
+<p>This example does not prevent the selected text from being de-selected.  
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E16"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Replacing text using the offSet() function</b><b> </b></font></h3>
+<p><i><u>Question:</u></i><i> I'm developing a CBT which includes questions.  The </i><i>questions are of the drag and drop variety.  I would like to </i><i>search a string (field) for certain continuous characters </i><i>(______), and replace the text with the drag-n-drop.</i>
+<p><i> Example:  The man jumped over the _________ to reach his </i><i>keys.</i>
+<p><i>Replace the &quot;________&quot; and have several drag-n-drop answer </i><i>to fill in the space.   I would like the handler to work whether </i><i>the &quot;______&quot; are in the beginning, middle or end of a </i><i>question.  If anyone has any experience with this please </i><i>respond.  I tried the Offset() function, but was unsuccessful.</i>
+<h4>
+<font FACE="Arial" COLOR="#004080"><b>Offset IS the way to go</b></font></h4>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Jeffrey M. Rhodes</i></font>
+<p>I think offset IS the way to go.  Shown below are two functions that I use to save some &quot;Index&quot; information in .ini file format.  It takes a comma and replaces it with a unique character string (analogous to your &quot;______&quot;).  Then the reverse
+<p>function finds this string, replaces the first char with the comma, and then deletes the rest of it.  I believe you could do the same as long as your &quot;______&quot; was longer than the longest &quot;drag-n-drop&quot; answer.
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>-- this function replaces commas </b>
+<b>-- with unique string from inputString and</b>
+<b>-- returns the result</b>
+<b>to get replaceCommasWithString \</b>
+<b>                                string inputString</b>
+<b>  while &quot;,&quot; is in inputString</b>
+<b>    -- string not likely to be repeated</b>
+<b>    char offset(&quot;,&quot;, inputString) of \</b>
+<b>                     inputString = &quot;|\&amp;^%?&quot; </b>
+<b>  end while</b>
+<b>  return inputString</b>
+<b>end replaceCommasWithString</b>
+<b>-- this function replaces unique string with commas</b>
+<b>to get replaceStringWithCommas \</b>
+<b>                               string inputString</b>
+<b>   local word numChar</b>
+<b>   local long num</b>
+<b>   while &quot;|\&amp;^%?&quot; is in inputString</b>
+<b>      numChar = offset(&quot;|\&amp;^%?&quot;, inputString)</b>
+<b>      char numChar of inputString = &quot;,&quot;</b>
+<b>      step num from numChar + 1 to numChar +  5</b>
+<b>         char (numChar + 1) of inputString = null</b>
+<b>      end step</b>
+<b>   end while</b>
+<b>   return inputString</b>
+<b>end replaceStringWithCommas</b></font></pre>
+<p>Hope this helps.
+<h4>
+<font FACE="Arial" COLOR="#004080"><b>Use hotwords</b></font></h4>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Ken Tait</i></font>
+<p>If you make the blank ___________ a hotword then you should be able to use drag and drop relatively easily.
+
+<hr>
+<p>To access <em>thousands </em>more tips offline <em>-</em> download <a href="https://toolbook.atug.com/" target="_blank">Toolbook Knowledge Nuggets</a>&nbsp; </p>
+
+<p ALIGN="CENTER">
+<a HREF="TOCONV~9.htm" TARGET="_self"><img SRC="images/blanprev.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Previous Page"></a>
+<a HREF="TOCONV11.htm" TARGET="_self"><img SRC="images/blannext.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Next Page"></a>
+</body></html>

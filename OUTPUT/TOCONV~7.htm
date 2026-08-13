@@ -1,0 +1,161 @@
+<html>
+<head>
+<title>ATUG Toolbook Tips -  Toolbook Tips &amp; Techniques Menus - Popup Menus</title>
+<link REL="ToC" HREF="httoc.htm">
+<link REL="Index" HREF="htindex.htm">
+<link REL="Next" HREF="TOCONV~8.htm">
+<link REL="Previous" HREF="TOCONV~6.htm"></head>
+<body BGCOLOR="#FFFFFF" BACKGROUND="images/grnmarbl.gif">
+
+
+<p align="center"><a href="https://toolbook.atug.com/" target="_blank">Australian Toolbook User Group</a></p>
+<h2 ALIGN="CENTER">
+<center>Toolbook Tips &amp; Techniques</center></h2>
+<p ALIGN="CENTER">
+<a HREF="TOCONV~6.htm" TARGET="_self"><img SRC="images/blanprev.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Previous Page"></a>
+<a HREF="TOCONV~8.htm" TARGET="_self"><img SRC="images/blannext.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Next Page"></a>
+
+<p>
+<ul>
+<li>
+<font FACE="Arial" SIZE="+1"><em><strong>Tips on</strong></em><p>
+<a HREF="#E17E4" NAME="LOCE17E4">Menus - Popup Menus</a></font>
+<ol>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E8">Determining the the result of a Popup Menu user selection</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E9">Checking and Unchecking Popup Menu Items</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E10">Pop Up menus via Right Mouse Button - in Author mode</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E11">How to make a popup menu appear next to a hotword</a></font></ol></ul>
+<hr WIDTH="80%" ALIGN="CENTER">
+<a NAME="E17E4"></a>
+<pre>
+<center><img SRC="images/menu1.gif" WIDTH="41" HEIGHT="40"></center></pre>
+<p>A Popup menu that pops up next to your mouse as you click on something is implemented via the 
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>   </b><b>popupmenu </b></font></pre>
+<p>command.  You can define your popup menus in openscript or simply specify a menu that you have created using the menu editor.  Both methods of defining a menu have their place - using the menu editor is easiest. 
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E8"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Determining the the result of a Popup Menu </b><b>user selection</b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Tim  Barham </i></font>
+<p><i><u>Question:</u></i><i>  1have been trying to get a popup menu to respond </i><i>to mouse clicks I have a menu resource called &quot;ECRC&quot; that </i><i>pops up when you enter the &quot;hotbox&quot;</i>
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>to handle mouseenter </b>
+<b>    get popupmenu(&quot;0,0&quot;, menubar &quot;ECRC&quot;, \</b>
+<b>    &quot;Control Menu&quot;) </b>
+<b>end</b></font></pre>
+<p><i>The above code is located at the Book Level.  The menu pops </i><i>up fine, but I cannot get  any of my code to respond to it.  For </i><i>example, there is a menu item called &quot;Exit ECRC Tour&quot;.  How </i><i>can I get that to close the toolbook after you popup the menu </i><i>and then select it?</i>
+<p><i><u>Answer:</u></i><i> </i>  popupMenu function returns the selected menu item and its alias (if it has one).  So, for example, have code like this:
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>menuSelection = item 1 of \</b>
+<b>   </b><b>popupmenu(&quot;0,0&quot;, menubar &quot;ECRC&quot;, \</b>
+<b>   </b><b>&quot;Control Menu&quot;)</b>
+<b>    conditions</b>
+<b>        when menuSelection = &quot;ExitECRCTour&quot;</b>
+<b>            -- do stuff</b>
+<b>        when menuSelection = ...</b>
+<b>    end conditions</b></font></pre>
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E9"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Checking and Unchecking Popup Menu Items</b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Jim Warner, Asymetrix</i></font>
+<p><i><u>Question:</u></i><i>  Is there a way to check/uncheck menu items of a </i><i>PopupMenu())? </i>
+<p><i><u>Answer:</u></i><i> </i> The popMenu () function (tb40win.dll) does allow the displaying of a check mark next to a menu item. This is annotated in the menu items list with an '*' before the menu item in question (see on-line help for popMenu). If you want to check and uncheck any item, you will have to update the &quot;menuItems&quot; parameter (list) such that when the function is used again the new item has the check mark.  
+<p>It is common to list each item as a property of some object (maybe the book) whereby the property is either TRUE or FALSE on whether it has a check mark or not. The menuItems list can then be built from enumerating these properties by adding an '*' for each item in the list. 
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E10"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Pop Up menus via Right Mouse Button - in </b><b>Author mode</b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Jonathan Astley</i></font>
+<p>I wanted to use a pop up menu in <i>Author </i>mode - one that I could activate with the right mouse button. This pop up menu would be customised to allow me to execute handlers without needing to move the mouse cursor to the menubar of the book everytime. Instead it would appear conveniently next to the mouse cursor.
+<p>
+<img SRC="images/noteanim.gif" WIDTH="86" HEIGHT="76"><b><i>Editors note:</i></b>
+<br><i>This article applies to version 1.53 of Toolbook - I haven&#146;t tried </i><i>it in later versions - abut have no reason to believe it wouldn't </i><i>work.  Of course Toolbook Versions 3 and above already have </i><i>the right mouse button click bring up a predefined authoring </i><i>menu - so this functionality would be lost when implementing </i><i>the code below.</i>
+<p>Since Toolbook 1.53 currently only supports the use of the right mouse button in Reader mode only, I had to trap a Right ButtonUp event from Windows to allow  me to use the right mouse button in Author mode. The Openscript function &quot;TranslateWindowMessage&quot; enabled me to achieve this by trapping the defined event and sending the specified handler.  Event names and their hexadecimal values are listed in the WINDOWS.H file which is included with C/C++ Windows compliant compilers. Values must be converted to decimal for use by Toolbook.
+<p>In this example we have set Toolbook to send a message handler &quot;RButtonUp&quot; when event DECIMAL value 517 (WM_RBUTTONUP) occurs. This only need be specified once.
+<p><i><u>EnterBook Handler</u></i>
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>   </b><b>to handle EnterBook</b>
+<b>   </b><b>   </b><b>translateWindowMessage for sysClientHandle</b>
+<b>   </b><b>   </b><b>   </b><b>before 517 send RButtonUp to this book </b>
+<b>   </b><b>   </b><b>   </b><b>   </b><b>-- WM_RBUTTONUP</b>
+<b>   </b><b>   </b><b>end</b>
+<b>   </b><b>end</b></font></pre>
+<p>For the RButtonUp handler, I started by defining in the handler the linkDLL statement for the required function &quot;popMenu&quot; (see page 60 of the Asymetrix  DLL Reference manual) . This is a function that displays a popup menu at a designated position. It is one of a number of functions available in the TBKWIN.DLL provided with Toolbook.
+<p><i><u>RButtonUp Handler</u></i>
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>   </b><b>to handle RButtonUp</b>
+<b>   </b><b>   </b><b>set popUpList to NULL</b>
+<b>   </b><b>   </b><b>-- items which will be displayed</b>
+<b>   </b><b>   </b><b>push &quot;Item4&quot; onto popUpList </b>
+<b>   </b><b>   </b><b>push &quot;Item3&quot; onto popUpList</b>
+<b>   </b><b>   </b><b>push &quot;Item2&quot; onto popUpList</b>
+<b>   </b><b>   </b><b>push &quot;Item1&quot; onto popUpList</b>
+<b>   </b><b>   </b><b>linkdll &quot;tbkwin.dll&quot;</b>
+<b>   </b><b>   </b><b>   </b><b>INT popMenu(WORD,STRING,INT, \</b>
+<b>   </b><b>   </b><b>   </b><b>   </b><b>STRING,STRING,STRING)</b>
+<b>   </b><b>   </b><b>end</b>
+<b>   </b>
+<b>   </b><b>   </b><b>get popMenu(sysWindowHandle, \</b>
+<b>   </b><b>   </b><b>   </b><b>   </b><b>sysPageScroll,sysMagnification,\</b>
+<b>   </b><b>   </b><b>   </b><b>   </b><b>sysMousePosition,popUpList,NULL)</b>
+<b>   </b><b>   </b><b>Conditions</b>
+<b>   </b><b>   </b><b>when it is 1 </b>
+<b>   </b><b>   </b><b>-- line number of selected item </b>
+<b>   </b><b>   </b><b>-- which user chose</b>
+<b>   </b><b>   </b><b>   </b><b>send Message1</b>
+<b>   </b><b>   </b><b>when it is 2</b>
+<b>   </b><b>   </b><b>   </b><b>send Message2</b>
+<b>   </b><b>   </b><b>when it is 3</b>
+<b>   </b><b>   </b><b>   </b><b>send Message3</b>
+<b>   </b><b>   </b><b>when it is 4</b>
+<b>   </b><b>   </b><b>   </b><b>send Message4</b>
+<b>   </b><b>   </b><b>end conditions</b>
+<b>   </b><b>   </b><b>unlinkDLL &quot;tbkwin.dll&quot;</b>
+<b>   </b><b>end RButtonUp</b></font></pre>
+<p>I installed the translateWindowMessage in an enterbook handler since it only needs to be done once. Everytime the right mouse button is clicked, Toolbook propagates a RButtonUp message for the WM_RBUTTONUP event. The RButtonUp handler links in the popMenu function, creates the list items, calls the popMenu function to display the pop up list and processes the returned number of the item selected from the list. For each item, a message can be assigned to trigger another handler and perform the required task.
+<pre>
+<center><img SRC="images/PopUpMenuDemoScreenShot.gif" WIDTH="240" HEIGHT="177"></center></pre>
+<p ALIGN="CENTER">
+<center><b>Figure </b><b>2</b><b> - A custom built author-level right mouse button </b><b>popup menu.</b></center>
+<p>This pop up works in Author mode only. In Reader mode Toolbook traps the WM_RBUTTONUP and sends a &quot;rightButtonUp&quot; message. To execute this pop up in Reader mode, write a rightButtonUp handler which activates the RButtonUp handler, or simpler still, rename RButtonUp to rightButtonUp, not forgetting to change the message name sent in the translateWindowMessage handler.
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E11"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>How to make a popup menu appear next to a </b><b>hotword</b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Andy Bulka</i></font>
+<p>To get a popup menu to appear next to your hotword, simply specify the position you want to the popup menu to appear in the popupmenu command's first parameter.  The value to pass is the 'loc' paramter you get from a buttonClick handler e.g.
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>to handle buttonClick loc</b>
+<b>   </b><b>get popupMenu( loc, menu &quot;PremiseList&quot; )</b>
+<b>end</b></font></pre>
+<p>Put the above code in your hotword's script.  If you want all your hotwords to act the same, create a shared script and assign the shared script to the hotwords you want to have this common behaviour.
+<pre>
+<center><img SRC="images/PopUpMenubar.gif" WIDTH="384" HEIGHT="364"></center></pre>
+<p ALIGN="CENTER">
+<center><b>Figure </b><b>3</b><b> - An example of creating a menu using the menu </b><b>editor and then showing it as a popup menu, in response to a </b><b>user clicking on a hotword.  The script for the hotword is a </b><b>shared script and uses the 'popupmenu' command - as you </b><b>can see.</b></center>
+
+<hr>
+<p>To access <em>thousands </em>more tips offline <em>-</em> download <a href="https://toolbook.atug.com/" target="_blank">Toolbook Knowledge Nuggets</a>&nbsp; </p>
+
+<p ALIGN="CENTER">
+<a HREF="TOCONV~6.htm" TARGET="_self"><img SRC="images/blanprev.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Previous Page"></a>
+<a HREF="TOCONV~8.htm" TARGET="_self"><img SRC="images/blannext.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Next Page"></a>
+</body></html>

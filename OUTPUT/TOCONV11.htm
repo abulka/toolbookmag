@@ -1,0 +1,133 @@
+<html>
+<head>
+<title>ATUG Toolbook Tips -  Toolbook Tips &amp; Techniques Graphic Clipping / Drop-shadows / Chromakey graphics</title>
+<link REL="ToC" HREF="httoc.htm">
+<link REL="Index" HREF="htindex.htm">
+<link REL="Next" HREF="TOCONV12.htm">
+<link REL="Previous" HREF="TOCONV10.htm"></head>
+<body BGCOLOR="#FFFFFF" BACKGROUND="images/grnmarbl.gif">
+
+
+<p align="center"><a href="https://toolbook.atug.com/" target="_blank">Australian Toolbook User Group</a></p>
+<h2 ALIGN="CENTER">
+<center>Toolbook Tips &amp; Techniques</center></h2>
+<p ALIGN="CENTER">
+<a HREF="TOCONV10.htm" TARGET="_self"><img SRC="images/blanprev.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Previous Page"></a>
+<a HREF="TOCONV12.htm" TARGET="_self"><img SRC="images/blannext.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Next Page"></a>
+
+<p>
+<ul>
+<li>
+<font FACE="Arial" SIZE="+1"><em><strong>Tips on</strong></em><p>
+<a HREF="#E17E7" NAME="LOCE17E7">Graphic Clipping / Drop-shadows / Chromakey graphics</a></font>
+<ol>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E17">Preventing the abrupt clipping of Graphics in a scroll field</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E18">How to create text with a Drop Shadow</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E19">Transparent / Chromakeyed Bitmaps</a></font></ol></ul>
+<hr WIDTH="80%" ALIGN="CENTER">
+<a NAME="E17E7"></a>
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E17"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Preventing the abrupt clipping of Graphics in a </b><b>scroll field</b></font></h3>
+<pre>
+<center><img SRC="images/animScrollGraphicField.gif" WIDTH="302" HEIGHT="240"></center></pre>
+<p ALIGN="CENTER">
+<center><b>Figure </b><b>9</b><b> - Animated GIF of the effect of scrolling a field with </b><b>large graphics in it.  Notice the graphics disappear rather than </b><b>get clipped.</b></center>
+<p><i><u>Question:</u></i><i>  It's nice that you can have graphics in a scrolling </i><i>field, but there seems to be a side effect (or bug) associated </i><i>with large graphics.  When the character anchor goes off the </i><i>visible portion of the field, so does the graphic.  This is really </i><i>bad with &quot;tall graphics&quot;.  A related effect is that you seem never </i><i>able to see the &quot;bottom&quot; of a graphic that is taller than the text </i><i>box.  Any remedies for this?  I use MMTBK 3.0a, is it different </i><i>in 4.0? - Charles Jameson  </i>
+<h4>
+<font FACE="Arial" COLOR="#004080"><b>Reply 1 - Use a Viewer</b></font></h4>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Butch Carino, Asymetrix</i></font>
+<p>The behavior is the same in MTB4.  My only suggestion is to place your graphic in a scrollable viewer rather than in a scrollable field.
+<h4>
+<font FACE="Arial" COLOR="#004080"><b>Reply2 &#150; Using a Viewer vs Field to prevent Visual Clipping</b></font></h4>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Andy Bulka</i></font>
+<p>Alas, Toolbook (all versions as of Oct 1998 including version II / 6.1) will not display a picture in a field unless the entire picture can be made to fit in the field  (relative to where the picture is supposed to appear).  Watch the animated GIF above, to see the effect you get whilst scrolling.  Now look at the following solution:
+<pre>
+<center><img SRC="images/differenceBetwwenViewerAnd%20fieldVisually.gif" WIDTH="471" HEIGHT="180"></center></pre>
+<p ALIGN="CENTER">
+<center><a NAME="I2"></a><b>Figure </b><b>10</b><b> - Using two different techniques to display </b><b>graphics in a text field.  The normal way (rightmost picture, </b><b>above) relies on a Toolbook field to display the graphic </b><b>properly whilst scrolling. The technique on the left uses a </b><b>viewer onto a long vertical page.</b></center>
+<p>The graphic in <a HREF="TOCONV11.htm#I2">Figure 10</a>, <b>right-side</b>, has been pasted into a regular Toolbook field.  When you scroll the field, the graphic will suddenly jump out of sight - Toolbook does not allow field graphics to be partially visible.  This is an unfortunate limitation.
+<p>The graphic in <a HREF="TOCONV11.htm#I2">Figure 10</a>, <b>left-side</b>, however, is on a page being displayed by a viewer.  Toolbook&#146;s Viewers let you have partially visible graphics, as shown.  Problem Solved!  However in using this technique you will have put everything you originally wanted to display in a field - on a page instead.  Typically you would make the page size very tall.  You would also have to ensure that the viewer appeared at the required coordinates in order to blend in with your interface.  This may take a little experimenting - and remember to test across a few different screen resolutions.
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E18"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>How to create text with a Drop Shadow</b></font></h3>
+<p><u>Question:</u> <i> Reviewing what's available on the TB II 4.0 package, </i><i>we can't find how to do a 'drop shadow' text.  Anyone help us </i><i>with what is probably a real basic question? </i>
+<h4>
+<font FACE="Arial" COLOR="#004080"><a NAME="I3"></a><b>Group two text fields</b><b> to create Drop Shadow text</b></font></h4>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Daniel Payer </i></font>
+<p>I don't remember which app I found this in but on the TB II disk there is a tutorial that has a group of 2 text fields.  The nice thing about this one was an idle handler that allowed you to input text into one field and when you switched to reader mode it set the &quot;shadow&quot; text to the same text. 
+<p>I use that one alot.  Not that I'm lazy or anything.
+<h4>
+<font FACE="Arial" COLOR="#004080"><a NAME="I4"></a><b>Create the illusion of drop text</b><b> using only ToolbookObjects</b></font></h4>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Martha Weller </i></font>
+<p>If you want to create the illusion of drop text while still using just toolbook text objects, the best I can do is this:
+<p>I use label fields (transparent).  I create my original text and when I have the font and size as I want them, I duplicate the field.  I then change the color of the text field that will be the shadow part (usually to black -- but this depends on the effect you're going for).  Then, I select one of the fields and use the arrow keys to nudge it into the proper position.  Then, I group the two text fields together. 
+<pre>
+<center><img SRC="images/shadowtxt.gif" WIDTH="191" HEIGHT="311"></center></pre>
+<p ALIGN="CENTER">
+<center><b>Figure </b><b>11</b><b> - Simulating a drop shadow using two regular </b><b>Toolbook text fields.</b></center>
+<p>As someone else has suggested, though, you might prefer to use some kind of 3D or paint environment and create what you want as a graphic.  Then, you can import the graphic into ToolBook.
+<h4>
+<font FACE="Arial" COLOR="#004080"><a NAME="I5"></a><b>Use 3d/fx graphics </b><b>to create Drop Shadow text</b></font></h4>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Richard Campbell</i></font>
+<p>In respect to 3d text, one good route is to use Asymetrix' 3D/FX.
+<h4>
+<font FACE="Arial" COLOR="#004080"><a NAME="I6"></a><b>Use paint shop pro</b><b> to create Drop Shadow text graphics</b></font></h4>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Tom Hall</i></font>
+<p>Another really good way of getting a drop shadow effect is with Paint Shop Pro for Windows 95/NT.
+<pre>
+<center><img SRC="images/shadow3d.gif" WIDTH="152" HEIGHT="60"></center></pre>
+<p ALIGN="CENTER">
+<center><b>Figure </b><b>12</b><b> - Creating a drop shadow using a graphics </b><b>program</b></center>
+<p>It takes about a 1 minute to create the text, color it, then add the drop shadow, crop and save as a transparent gif for import. There are several other really nice effects available also including chisel and cutout. A buttonize effect is also useful for certain graphics. 
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E19"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Transparent / Chromakeyed Bitmap</b><b>s</b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Martha H. Weller, Ph.D.</i></font>
+<p><i>I was looking at the New Features Demo (features.tbk) in </i><i>toolbook 4.0.  The Table of Contents in that book contains a </i><i>transparent field with a transparent bitmap of a pointing hand. </i><i> I tried to recreate this transparent bitmap effect with other </i><i>bitmaps, but I have not been able to do it.  There must be </i><i>something special with that specific bitmap resource, because I </i><i>can paste it into other fields or edit it and it remains </i><i>transparent.  Does anyone know how it was done? </i>
+<pre>
+<center><img SRC="images/chromakey1.gif" WIDTH="318" HEIGHT="248"></center></pre>
+<p ALIGN="CENTER">
+<center><b>Figure </b><b>13</b><b> - Using the Chromakey feature of Toolbook to </b><b>great effect</b></center>
+<h4>
+<font FACE="Arial" COLOR="#004080"><b>Setting up a Chromakey graphic using code</b></font></h4>
+<p>The bitmap resource (as you can see in the resource editor) has a magenta fill around the hand.  To achieve the transparent effect, the bitmap's chromakey has been activated and set to magenta.  This is done via openscript: 
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>--Sets transparency for a bitmap resource when it</b>
+<b>--is displayed in the text of a field or a button</b>
+<b>useChromakey of bitmap &quot;hand&quot; = true</b>
+<b>keyColor of bitmap &quot;hand&quot; = magenta</b></font></pre>
+<p>
+<img SRC="images/noteanim.gif" WIDTH="86" HEIGHT="76"><b><i>An Easier Way</i></b>
+<br>
+<br><i>Instead of using openscript code, if you have Toolbook II </i><i>version 5 or 6 then you can:</i>
+<br>
+<br><i>1. Select the imported graphic </i>
+<br><i>2. Choose from the menu </i><b><i>object / paintobject properties</i></b><i>.  </i><i>Check the box &#145;UseChromakey&#146; and select the appropriate fill </i><i>color.</i>
+
+<hr>
+<p>To access <em>thousands </em>more tips offline <em>-</em> download <a href="https://toolbook.atug.com/" target="_blank">Toolbook Knowledge Nuggets</a>&nbsp; </p>
+
+<p ALIGN="CENTER">
+<a HREF="TOCONV10.htm" TARGET="_self"><img SRC="images/blanprev.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Previous Page"></a>
+<a HREF="TOCONV12.htm" TARGET="_self"><img SRC="images/blannext.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Next Page"></a>
+</body></html>

@@ -1,0 +1,181 @@
+<HTML>
+<HEAD>
+<TITLE>ATUG Toolbook Tips -  Toolbook Tips &amp; Techniques Importing Text</TITLE>
+<LINK REL="ToC" HREF="httoc.htm">
+<LINK REL="Index" HREF="htindex.htm">
+<LINK REL="Next" HREF="TOCONV14.htm">
+<LINK REL="Previous" HREF="TOCONV12.htm"></HEAD>
+<BODY BGCOLOR="#FFFFFF" BACKGROUND="images/grnmarbl.gif">
+
+
+<p align="center"><a href="https://toolbook.atug.com/" target="_blank">Australian Toolbook User Group</a></p>
+<H2 ALIGN=CENTER>
+<CENTER>Toolbook Tips &amp; Techniques</CENTER></H2>
+<P ALIGN=CENTER>
+<A HREF="TOCONV12.htm" TARGET="_self"><IMG SRC="images/blanprev.gif" WIDTH = 37 HEIGHT = 37 BORDER = 0 ALT="Previous Page"></A>
+<A HREF="TOCONV14.htm" TARGET="_self"><IMG SRC="images/blannext.gif" WIDTH = 37 HEIGHT = 37 BORDER = 0 ALT="Next Page"></A>
+
+<P>
+<UL>
+<LI>
+<FONT FACE="Arial" SIZE="+1"><em><strong>Tips on</strong></em><p>
+<A HREF="#E17E9" NAME="LOCE17E9" >Importing Text</A></FONT>
+<OL>
+<LI>
+<FONT FACE="Arial" SIZE="+1">
+<A HREF="#E18E29" >Importing Large RTF Text Files</A></FONT>
+<LI>
+<FONT FACE="Arial" SIZE="+1">
+<A HREF="#E18E30" >Reading Lots of Text into Tbk</A></FONT>
+<LI>
+<FONT FACE="Arial" SIZE="+1">
+<A HREF="#E18E31" >Importing Text Data into Toolbook</A></FONT></OL></UL>
+<HR WIDTH=80% ALIGN=CENTER>
+<A NAME="E17E9"></A>
+<P>Note Toolbook 6 now has &quot;import text&quot; command on the Insert menu rather than the Tools menu.  This command imports raw text files into a specific toolbook field.  For more complicated text importing, you may need to do it manually using the copy/paste clipboard manouvers, or write some script.
+<HR WIDTH=50% ALIGN=CENTER>
+<BR>
+<A NAME="E18E29"></A>
+<H3><P ALIGN=CENTER>
+<FONT FACE="Arial" SIZE="+3" COLOR="#008000"><B>Importing Large RTF Text Files</B></FONT></H3>
+<I>Solution by </I>
+<FONT FACE="Times New Roman" SIZE="-1"><I>Asymetrix Tech Support</I></FONT>
+<P><I><U>Question</U></I><U>:</U> <I> is there any possibility of importing a RTF-file of </I><I>about 300k into ToolBook? </I>
+<P><I><U>Answer:</U></I><I> </I> As soon as you start chunking a rtf file you will have problems since the main header on the first chunk is not present on the additional chunks, thus the additional pieces are incomplete.  I know of no practical way to chunking an rtf file so that the problem you are encountering will not occur.  A regular text file will not be a problem. 
+<HR WIDTH=50% ALIGN=CENTER>
+<BR>
+<A NAME="E18E30"></A>
+<H3><P ALIGN=CENTER>
+<FONT FACE="Arial" SIZE="+3" COLOR="#008000"><B>Reading Lots of Text into Tbk</B></FONT></H3>
+<P><I><U>Question:</U></I><I>  How are developers getting text into books without </I><I>having to type it into each field? Can TB recognize bookmarks </I><I>or special characters in order to put different sections of text </I><I>(within one document) into different TB fields? </I>
+<H4>
+<FONT FACE="Arial" COLOR="#004080"><A NAME="I2"></A><B>Reply 1</B></FONT></H4>
+<I>Solution by </I>
+<FONT FACE="Times New Roman" SIZE="-1"><I>Jim Warner, Asymetrix</I></FONT>
+<P>If the text is contained in a textfile (or rtf file), it can be read in (up to 64k chunks at a time) and be place into field(s) (up to 32k chunks per field).   <I>Continued next page&#133;</I>
+<P><I>from previous page &#133;</I> The problem you mention above is that you want to be able to detect the presence of some type of character (bookmark). This is not directly supported. It can be done, however, by checking (parsing) the text looking for that special character (a marker) and then performing some action (like putting the next bit of text into another field until an ending marker is hit).  
+<P><I>The document is a Word 6.0 rtf file.  We use Word to </I><I>storyboard the lessons.  A macro exports all the instructional </I><I>text to rtf files.</I>
+<P><I>On each Toolbook page I have two text fields for bulleted text </I><I>and prompt text.  I want to be able to define a directory, file </I><I>name, and bookmark within the page script (or field script) and </I><I>have that specific chunk of text displayed in the appropriate </I><I>field.</I>
+<P><I>Then, I go to my next Toolbook page and define the same </I><I>directory &amp; file but use a different bookmark to pull in the </I><I>next chunk of text within the rtf file.  Currently, I have a </I><I>different rtf file for each chunk of text.  I was hoping there </I><I>would be a less cumbersome approach.   There's no activating </I><I>click to display the text.</I>
+<P><I>When the user turns to the Toolbook page I just want the text to </I><I>be displayed (On OpenPage??).  Just like an external call to a </I><I>graphic file. This project involves multiple designers, many </I><I>Toolbook books &amp; pages, many chunks of text.  My goal is to </I><I>have designers only type these chunks of text once and let </I><I>programming do the rest. </I>
+<P>My recommendation is to put meaningful markers in the text that allow for ease of parsing. So, the data can be read into a buffer in 32-64k chunks, parsed (based on marker or tags, and put into appropriate fields with specific properties (where some text can be hotwords). It is not a trivial task but doable.  
+<H4>
+<FONT FACE="Arial" COLOR="#004080"><A NAME="I3"></A><B>Reply 2</B></FONT></H4>
+<I>Solution by </I>
+<FONT FACE="Times New Roman" SIZE="-1"><I>William McKee</I></FONT>
+<P>Yes, I agree with Jim's last statement there - &quot;not trivial..but doable.&quot; I've implemented it in a program I wrote. Here's the routine I built. The problem with hotwords is that it is difficult to manage their scripts which is effectively how the hyperlink works. My solution was to write a handler at the page level and test for a hotword click. Then I would get the name of the hotword and make the link. 
+<P>I used $ and ^ to mark the beginning and end of hotwords. You could use only a start marker if your hotwords are all just 1 word. Otherwise you'll need an ending character as well. I then loaded the marked text into a hidden field, parsed it and then copied it into the destination field. 
+<P>I'm sure that I could find quicker ways to write this code now but don't have the need/time/desire to do so. A pointer - put all your text into a variable and parse from within the variable. 
+<PRE>
+<FONT FACE="Courier New" COLOR="#800040"><B>    ....</B>
+<B>    step i from 1 to textlineCount(text of \</B><B>   </B><B>   </B><B>   </B><B> </B>
+<B>   </B><B>   </B><B>recordField &quot;list&quot; of page (pageNo))</B>
+<B>      textline (i) of text of field &quot;hideTxt&quot; \</B>
+<B>   </B><B>   of self = \</B>
+<B>      textline (i) of text of recordField &quot;list&quot; \</B>
+<B>      of page (pageNo)</B>
+<B>   </B><B>-- SEARCH THE TEXTLINE FOR TAGGED WORDS;</B>
+<B>   </B><B>-- REMOVE TAGS &amp; COLORIZE</B>
+<B>      marker = offset(&quot;$&quot;, textline i of text of \</B>
+<B>   </B><B>   </B><B>field &quot;hideTxt&quot;)</B>
+<B>        if marker &gt; 0</B>
+<B>            do</B>
+<B>         set link to null</B>
+<B>         marker2 = offset(&quot;^&quot;, textline i \</B>
+<B>   </B><B>   </B><B>   of text of field \</B>
+<B>          &quot;hideTxt&quot; of self)</B>
+<B>         link = chars (marker+1) to \</B>
+<B>   </B><B>   </B><B>  (marker2-1) of textline i \</B>
+<B>          of text of field &quot;hideTxt&quot; of self</B>
+<B>         select chars (marker) to (marker2)\</B>
+<B>   </B><B>   </B><B>   of textline (i) of \</B>
+<B>          text of field &quot;hideTxt&quot; of self</B>
+<B>         put link into selectedText</B>
+<B>         select chars (marker) to (marker2 \</B>
+<B>   </B><B>   </B><B>    - 2) of textline i of \</B>
+<B>          text of field &quot;hideTxt&quot; of self</B>
+<B>         strokeColor of selectedText = \</B>
+<B>   </B><B>   </B><B>   hotwordColor of this book</B>
+<B>         marker = offset(&quot;$&quot;, textline i of \</B>
+<B>   </B><B>   </B><B>   text of field &quot;hideTxt&quot;)</B>
+<B>     until marker = 0</B>
+<B>        end</B>
+<B>    end</B>
+<B>    sysLockScreen = true</B>
+<B>    richText of field &quot;soList&quot; of self = richText \</B>
+<B>   </B><B>  of field &quot;hideTxt&quot; of self</B>
+<B>    hide field &quot;hideTxt&quot; of self</B>
+<B>    ....</B></FONT></PRE>
+<HR WIDTH=50% ALIGN=CENTER>
+<BR>
+<A NAME="E18E31"></A>
+<H3><P ALIGN=CENTER>
+<FONT FACE="Arial" SIZE="+3" COLOR="#008000"><B>Importing Text Data into Toolbook</B></FONT></H3>
+<I>Solution by </I>
+<FONT FACE="Times New Roman" SIZE="-1"><I>William McKee</I></FONT>
+<P>Having just completed an application which imports large text files (i.e., greater than 32Kb, which is the fieldsize limit under Windows 3.1), I volunteered to report the results of my efforts for the newsletter. During my struggles I discovered ways to determine the end-of-line character (EOL), read the data file line-by-line, locate matching patterns in the text file being imported, and gracefully inform the user when an unexpected event occurred.     Before going into coding examples, let's take a look at the various types and meanings of EOL characters. Being Windows developers, you are all probably familiar with the
+<P> 
+<P><B>CRLF</B> 
+<P>code. Of course, CR stands for carriage return and LF for line feed. The application I was developing needed to be able to handle files from multiple platforms (a real concern with the increasing interconnectivity of computers).
+<P>
+<FONT FACE="Arial" SIZE="+1" COLOR="#800040"><B>For example, the Macintosh uses only a </B><B>CR for the EOL character. Unix files use </B><B>only LF.    </B></FONT>
+<P> I discovered that the best way to read in a text file of unknown size and from an unknown source is line-by-line. This method will allow your application to determine whether you are using the proper EOL character and will also give you flexibility in handling files &gt;32Kb. The first thing you will want to do upon reading in a new text file is to check that you are using the proper EOL character. I have setup a &quot;eolChar&quot; user property in my book which is the ASCII number of the corresponding code. The &quot;importFile&quot; variable is a text file on disk which you will need to assign somehow. I use the TB30DLG.DLL to bring up the Windows open file dialog box. 
+<PRE>
+<FONT FACE="Courier New" COLOR="#800040"><B> to handle importData</B>
+<B>    &lt;retrieve path &amp; name of the importFile&gt;</B>
+<B>    openFile(importFile)</B>
+<B>    sysSuspend = false</B>
+<B> -- SKIP OVER ANY NULL LINES AT THE BEGINNING </B>
+<B> -- OF THE DATA FILE</B>
+<B>    do</B>
+<B>        sysErrorNumber = 0</B>
+<B>        readFile(importFile) to \</B>
+<B>   </B><B>   </B><B>   </B><B>  ansiToChar(eolChar of this book)</B>
+<B>    until It &lt;&gt; NULL</B>
+<B> -- TEST THE FIRST LINE</B>
+<B>    sysSuspend = true</B>
+<B>    if sysErrorNumber &lt;&gt; 0</B>
+<B>   </B><B>   </B><B>   </B><B>&lt;error handling routines; these could </B>
+<B>   </B><B>   </B><B>   </B><B>automatically switch to a different EOL </B>
+<B>   </B><B>   </B><B>   </B><B>and try the import again&gt;</B>
+<B>    else</B>
+<B>        txt = It   </B><B>   </B><B>-- place the first line </B>
+<B>   </B><B>   </B><B>   </B><B>   </B><B>   </B><B>-- of the data file into a </B>
+<B>   </B><B>   </B><B>   </B><B>   </B><B>   </B><B>-- variable for later use</B>
+<B>        if charCount(txt) &gt; 80</B>
+<B>   </B><B>   </B><B>   </B><B>   </B><B>&lt;error handling&gt;</B>
+<B>        end</B>
+<B>        txt = addEOLChar (txt)</B>
+<B>    end</B>
+<B>--  IF ALL IS WELL THEN IMPORT THE COMPLETE FILE</B>
+<B>    sysError = NULL</B>
+<B>    do</B>
+<B>        readFile(importFile) to \</B>
+<B>   </B><B>   </B><B>   </B><B>   </B><B>ansiToChar(eolChar of this book)</B>
+<B>        tmp = It</B>
+<B>        tmp = addEOLChar (tmp)</B>
+<B>        put tmp after txt</B>
+<B>    until sysError = &quot;end of file&quot;</B>
+<B>    closeFile(importFile)</B>
+<B>   </B><B>   </B><B>   </B><B>&lt;additional processing of the &quot;txt&quot; variable&gt;</B>
+<B> end importData</B>
+<B> --    ADD PROPER WINDOWS EOL CHARACTER(S)</B>
+<B> to get addEOLChar  txt</B>
+<B>    if charToAnsi(last char of It) = 13</B>
+<B>        put LF after last char of txt</B>
+<B>    else</B>
+<B>        put CRLF after last char of txt</B>
+<B>    end</B>
+<B>    return txt</B>
+<B> end addEOLChar</B></FONT></PRE>
+<P>The additional processing of the &quot;txt&quot; variable is a more important function than it may appear. This could be the place where you simply dump the data into a text or record field. If it is greater than 32Kb, then you will need to do some creative coding during the importing of the text file as I had to do with my application. For instance, if the data in the text file is in a patterned form, then you could place chunks of the file into an array or individual fields. If the text file is not standardized, then you could read in the data in chunks of 400 lines. These 400-line chunks will certainly be less than 32Kb assuming 80 characters per line which is what I have assumed in the code above. 
+<P> Further Information: See chapter 16 of the Toolbook User Manual; a more in-depth example of these procedures can be found in a sample application located on my website (http://www.unc.edu/~slim/) 
+
+<hr>
+<p>To access <em>thousands </em>more tips offline <em>-</em> download <a
+href="https://toolbook.atug.com/" target="_blank">Toolbook Knowledge Nuggets</a>&nbsp; </p>
+
+<P ALIGN=CENTER>
+<A HREF="TOCONV12.htm" TARGET="_self"><IMG SRC="images/blanprev.gif" WIDTH = 37 HEIGHT = 37 BORDER = 0 ALT="Previous Page"></A>
+<A HREF="TOCONV14.htm" TARGET="_self"><IMG SRC="images/blannext.gif" WIDTH = 37 HEIGHT = 37 BORDER = 0 ALT="Next Page"></A>
+</BODY></HTML>

@@ -1,0 +1,526 @@
+<html>
+<head>
+<title>ATUG Toolbook Tips -  Toolbook Tips &amp; Techniques Synchronising &amp; Timing</title>
+<link REL="ToC" HREF="httoc.htm">
+<link REL="Index" HREF="htindex.htm">
+<link REL="Next" HREF="TOCONV20.htm">
+<link REL="Previous" HREF="TOCONV18.htm"></head>
+<body BGCOLOR="#FFFFFF" BACKGROUND="images/grnmarbl.gif">
+
+
+<p align="center"><a href="https://toolbook.atug.com/" target="_blank">Australian Toolbook User Group</a></p>
+<h2 ALIGN="CENTER">
+<center>Toolbook Tips &amp; Techniques</center></h2>
+<p ALIGN="CENTER">
+<a HREF="TOCONV18.htm" TARGET="_self"><img SRC="images/blanprev.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Previous Page"></a>
+<a HREF="TOCONV20.htm" TARGET="_self"><img SRC="images/blannext.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Next Page"></a>
+
+<p>
+<ul>
+<li>
+<font FACE="Arial" SIZE="+1"><em><strong>Tips on</strong></em><p>
+<a HREF="#E17E14" NAME="LOCE17E14">Synchronising &amp; Timing</a></font>
+<ol>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E53">How do I play a sound clip and display several image files one after another?</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E54">Text and Sound Synchronisation</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E55">Wavefile Control of Animations</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E56">Playing sound with bitmaps at given intervals</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E57">Karaoke - like book</a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E58">Using a timer in animation </a></font>
+<li>
+<font FACE="Arial" SIZE="+1">
+<a HREF="#E18E59">Using the Toolbook freeware Synchronization Plug-In Utility</a></font></ol></ul>
+<hr WIDTH="80%" ALIGN="CENTER">
+<a NAME="E17E14"></a>
+<pre>
+<center><img SRC="images/guitarTrebbleClefBlackIcon.gif" WIDTH="135" HEIGHT="98"></center></pre>
+<p>Synchronising graphics and sound, in most cases is pretty simple.  If you need strict synchronisation, you should consider creating creating and playing an AVI or Quicktime video. 
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E53"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>How do I play a sound clip and display several </b><b>image files one after another?</b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Stephen Hunter </i></font>
+<p><i><u>Question:</u></i><i> How do I play a sound clip and display several image </i><i>files one after another while the sound is playing? Can I control </i><i>the timing and duration of the images on the screen?  I am </i><i>sorry to ask this but the Ref manuals have little or no </i><i>examples</i>
+<p><i><u>Answer:</u></i> Regarding &quot;How do I play a sound clip&quot;: use the mmplay command as usual.  Then in an idle handler structure, test the mmposition property of the clip,  e.g. if you want to show an image after 4 seconds for 1 second duration  
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>if mmposition of clip myClip &gt; 4000  </b>
+<b> visible of picture &quot;mypic1&quot; = false  </b>
+<b> visible of picture &quot;mypic2&quot; = true</b>
+<b>if mmposition of clip myClip &gt; 5000  </b>
+<b> visible of picture &quot;mypic&quot; = false  </b></font></pre>
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E54"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Text and Sound Synchronisation</b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>John Petrikovitsch </i></font>
+<p><i><u>Question</u></i><u>:</u> <i> I am a novice. I got MTB30 a few weeks ago. I am </i><i>basically asking how to go about doing the following. What I </i><i>want to do is display the sentence &quot;This is my first try&quot; one word </i><i>at a time and play a wav file recording of the same entence as it </i><i>plays the recorded words in sync with the displaying words. I </i><i>have tried the following 2 scenarios withminimum success. </i>
+<p>1. <i>Created a single text field with the sentence and used a </i><i>script to select each word and change the stroke color </i><i>with a pause after each word selection. This &gt;handles the </i><i>display. I then tried to mmplay each words particular </i><i>range in the wave file as each word displayed.this was </i><i>quite time consumming and I never could get the entire </i><i>sentence to play smoothly. </i>
+<p>2. <i>Made the sentence &quot;This is my first try&quot; 5 separate text </i><i>fields and made 5 separate wav files 1 for each word.I </i><i>then made a script to highlight and play each wav for </i><i>eachword. As you can imagine this was even worse.I </i><i>know this can be done I just do not know how yet. Any </i><i>suggestions would be appreciated.</i>
+<p><i><u>Answer:</u></i>
+<p>I have tried something similar with an automated presentation which highlights bullets as a sound clip of the instructor is playing.
+<p>I have a variable (clipReference) which contains the name of the sound clip, the starting time, the time when I want the highlight to change and the ending time of the clip - all in ms. (note: the itemcount of this list the number of points (or words in your case) + 2 for the clip name and ending time).
+<p>I then have the following script in the field:
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>notifybefore idle</b>
+<b>     system clipReference</b>
+<b>     get mmposition of clip \</b>
+<b>   </b><b>   </b><b>   </b><b>   </b><b>   </b><b>(item 1 of clipReference)  </b>
+<b>   </b><b>   </b><b>   </b><b>   </b><b>   </b><b>--item 1 is name</b>
+<b>     set pointnumber to \</b>
+<b>   </b><b>   </b><b>   </b><b>   </b><b>   </b><b>   </b><b>itemcount(clipReference)-2</b>
+<b>     set i to 0</b>
+<b>     while it&gt;(item i+2 of clipReference) \</b>
+<b>   </b><b>   </b><b>   </b><b>   </b><b>   </b><b>   </b><b>AND i&lt;pointnumber</b>
+<b>          increment i</b>
+<b>     end</b>
+<b>     if i&gt;0 AND i&lt;&gt;my currentpoint then</b>
+<b>          send highlightpoint i</b>
+<b>     end if</b>
+<b>end</b>
+<b>to handle highlightpoint i</b>
+<b>     ... (you must use your own code here)</b></font></pre>
+<p>In the highlightpoint section, you must change the 
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>   </b><b>strokecolor of word i </b></font></pre>
+<p>to the highlight color, and change the 
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>   </b><b>stroke color of word i-1 </b></font></pre>
+<p>back to the original color if i&lt;&gt;1.  Also when you use mmplay to start the sound file, you must notify the field when the clip is done so it can un-highlight the last word.
+<p>This works great, because it does not interrupt the playing of the soundclip.
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E55"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Wavefile Control of Animations</b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Jeff Parkes</i></font>
+<p>I wanted to make animations in Toolbook that synchronised with wave files.  To use the following technique, you need to precisely determine the start and end points of a portion of sound in a wave file portion, so as to put these values in the script together with animation control statements (see below).
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>-- THE LearnTech </b>
+<b>-- IDLE HANDLER STUFF FOR </b>
+<b>-- WAVEFILE CONTROL OF ANIMATIONS</b>
+<b>-- by Jeff Parkes</b>
+<b>to handle idle</b>
+<b>   </b><b>forward</b>
+<b>   </b><b>system playnow</b>
+<b>   </b><b>if playnow is yes</b>
+<b>   </b><b>   </b><b>set playnow to no</b>
+<b>   </b><b>   </b><b>get tbkMCIchk(&quot;play waveFile from&quot; &amp;&amp; \</b>
+<b>   </b><b>   </b><b>   </b><b>   </b><b>0 &amp;&amp; &quot;to&quot; &amp;&amp; 19100,&quot;&quot;,1)</b>
+<b>   </b><b>   </b><b>get yieldApp()</b>
+<b>   </b><b>end</b>
+<b>--this plays the wavefile for this page once </b>
+<b>--it is completely drawn and ready </b>
+<b>--to go</b>
+<b>--this finds out where the wavefile is up to and...</b>
+<b>   </b><b>get tbkMCI(&quot;status waveFile position&quot;,&quot;&quot;)</b>
+<b>--the conditions determine when the </b>
+<b>--various thingies get shown</b>
+<b>   </b><b>conditions</b>
+<b>   </b><b>   </b><b>when it &gt; 2800 and it &lt; 3300</b>
+<b>   </b><b>   </b><b>   </b><b>hide group &quot;music&quot;</b>
+<b>--by specifying a &quot;window of opportunity&quot; </b>
+<b>--this wide, it's reasonably certain </b>
+<b>--that even a very slow computer will </b>
+<b>--catch the wavefile position within one </b>
+<b>--loop of the idle handler, while a super </b>
+<b>--fast one is unlikely to try to do it </b>
+<b>--twice.  Showing something twice </b>
+<b>--wouldn't have been a problem here but in </b>
+<b>--some circumstances it could mean things </b>
+<b>--remain on screen when they </b>
+<b>--shouldn't.  Also, where the idle handler </b>
+<b>--changes the bounds of an object, it </b>
+<b>--could keep going right off the screen.</b>
+<b>   </b><b>   </b><b>when it &gt; 9500 and it &lt; 11000</b>
+<b>   </b><b>   </b><b>   </b><b>hide field &quot;brew&quot;</b>
+<b>   </b><b>   </b><b>   </b><b>show group &quot;bucket&quot; </b>
+<b>   </b><b>   </b><b>when it &gt; 13700 and it &lt; 14200</b>
+<b>   </b><b>   </b><b>   </b><b>show group &quot;driller&quot;</b>
+<b>   </b><b>   </b><b>when it &gt; 17400 and it &lt; 17900</b>
+<b>   </b><b>   </b><b>   </b><b>hide  group &quot;driller&quot;</b>
+<b>   </b><b>   </b><b>   </b><b>show ellipse &quot;grommet&quot;</b>
+<b>   </b><b>   </b><b>when it &gt; 18500 and it &lt; 18900</b>
+<b>   </b><b>   </b><b>   </b><b>show group &quot;bubbler&quot;</b>
+<b>   </b><b>   </b><b>when it &gt; 18800</b>
+<b>   </b><b>   </b><b>   </b><b>send showbutts </b>
+<b>--shows the navigation button to continue</b>
+<b>--the &quot;exit&quot; button is always available</b>
+<b>   </b><b>end</b>
+<b>--this makes the chuck of the drill appear to turn</b>
+<b>   </b><b>set transparent of line &quot;w1&quot; to false</b>
+<b>   </b><b>set transparent of line &quot;w1&quot; to true</b>
+<b>   </b><b>set transparent of line &quot;w2&quot; to false</b>
+<b>   </b><b>set transparent of line &quot;w2&quot; to true</b>
+<b>   </b><b>set transparent of line &quot;w3&quot; to false</b>
+<b>   </b><b>set transparent of line &quot;w3&quot; to true</b>
+<b>end</b></font></pre>
+<p>As a voice over plays a wave file, the animation keeps in perfect synch with the audio. 
+<pre>
+<center><img SRC="Jeff'sWaveFileGadgetScreenShot.gif" WIDTH="250" HEIGHT="249"></center></pre>
+<p ALIGN="CENTER">
+<center><b>Figure </b><b>22</b><b> - Jeff&#146;s wavefile gadget (not available) - enables the </b><b>Toolbook developer to precisely determine the start and end </b><b>points of a portion of sound in a wave file.</b></center>
+<p>
+<img SRC="images/noteanim.gif" WIDTH="86" HEIGHT="76"><b><i>An alternative to the wavefile gadget </i></b>
+<br><i>Use the clip editor to define the clips into the wave file - then </i><i>read the values that define those clips out of the clip manager.  </i><i>Put these values in your code.</i>
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E56"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Playing sound with bitmaps at given intervals</b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>John R. Hall</i></font>
+<p><i><u>Question:</u></i><i> Does anybody have some script code to play a wave </i><i>file and at the same time play some bitmaps at specified times. </i><i> I also need to be able to show no bitmaps at certain points, </i><i>i.e., the screen has to be blanck during certain parts of the </i><i>voice over when no graphics are needed.</i>
+<pre>
+<font FACE="Courier New" COLOR="#800040">-- Also see openscript help about mmNotify, which is more appropriate if you have separate clips 
+-- rather than one long clip.
+-- Here's a script I use to display 
+-- bitmaps timed to a long clip. You
+-- might be able to modify to accomplish 
+-- what you want. It will
+-- also work with video playback 
+-- with slight modification.
+-- In page script, put info needed 
+-- for whole page. Something like:
+<b>to handle enterpage</b>
+<b>  system stack popList</b>
+<b>  system string ClipName</b>
+<b>  forward</b>
+-- create a list of audio frame numbers 
+-- where you want events to happen.
+-- You can get these numbers by playing the 
+-- clip in the clip
+-- manager and writing down the current 
+-- frame when you stop the
+-- clip at the point you want to display 
+-- the next bitmap.
+-- popList is then created with the form
+-- FrameNumber,ObjectToDisplay
+<b>  poplist = &quot;1,FieldOne,1200,FieldTwo&quot;</b>
+-- identify the name of the clip for the page
+<b>  ClipName = &quot;myWave&quot;</b>
+-- identify the format you're going to use
+<b>  mmTimeFormat of clip &quot;myWave&quot; = &quot;milliseconds&quot;</b>
+<b>end</b>
+-- Now, you use the following generic 
+-- handler for every page. 
+-- The script can be located in a 
+-- button, page, whatever.
+<b>to handle PlayTheSegs -- or FirstIdle or buttonclick</b>
+<b>  system stack popList</b>
+<b>  system string ClipName</b>
+<b>   mmplay clip ClipName</b>
+  -- pop list of clips and times to show from stack
+<b>   do</b>
+<b>     pop popList</b>
+<b>     StartTime = it</b>
+<b>     pop popList</b>
+<b>     ObjectToShow = it</b>
+<b>     get ShowObject(StartTime,ObjectToShow)</b>
+<b>   until popList = null</b>
+   -- wait for last section of clip to finish
+<b>   do</b>
+<b>     if keyState(sysMediaBreakKey) is &quot;up&quot;</b>
+<b>       get flushMessageQueue()</b>
+<b>       mmyield</b>
+<b>     end</b>
+<b>   until mmstatus of clip ClipName &lt;&gt; &quot;playing&quot;</b>
+   -- continue processing for the page
+<b>   request &quot;I'm done&quot;</b>
+<b>end</b>
+<b>to get ShowObject StartTime,ObjectToShow</b>
+<b>  system string ClipName</b>
+<b>  do</b>
+<b>    if keyState(sysMediaBreakKey) is &quot;up&quot;</b>
+<b>      get flushMessageQueue()</b>
+<b>    end</b>
+<b>    mmyield</b>
+<b>  until mmposition of clip ClipName &gt; StartTime</b>
+-- if you use other object types, modify next line
+-- or include object info in original 
+-- stack named popList
+<b>  show field ObjectToShow</b>
+<b>  return &quot;OK&quot;</b>
+<b>end</b></font></pre>
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E57"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Karaoke - like book</b></font></h3>
+<p><i><u>Question:</u></i><i> I'm doing a book that needs to synchronize CD audio </i><i>with the lyrics of the current track played.  How do I do this ?</i>
+<h4>
+<font FACE="Arial" COLOR="#004080"><b>Answer1</b></font></h4>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Ian Hutchesson</i></font>
+<p>Why not begin with a list of time changes:
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>to handle enterPage</b>
+<b>    system TimeChanges, Lyrics, Current</b>
+<b>    set Current to 1</b>
+<b>    put item 1 of Lyrics into text \</b>
+<b>   </b><b>   </b><b>of field &quot;Lyrics&quot;</b>
+<b>    --play your cd here</b>
+<b>    TimerStart(single,item 1 of TimeChanges, \</b>
+<b>   </b><b>   </b><b>   </b><b> 200, self)</b>
+<b>end</b></font></pre>
+<p>Start your audio, show your first lot of lyrics in your one field and grab the first time change with which you set a timer which in turn will clear the old text and put the next lot of lyrics into your field, then set the timer for the next change. 
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>to handle TimerNotify</b>
+<b>    system TimeChanges, Lyrics, Current</b>
+<b>    set text of field &quot;Lyrics&quot; to \</b>
+<b>   </b><b>   </b><b>item current of Lyrics</b>
+<b>    increment Current</b>
+<b>    TimerStart(single,item Current \</b>
+<b>   </b><b>   </b><b>of TimeChanges,200,self)</b>
+<b>end</b></font></pre>
+<p>If the user wants to leave the page just send a timerstop and kill the current lyrics before you leave.
+<h4>
+<font FACE="Arial" COLOR="#004080"><b>Answer2</b></font></h4>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Martha Weller</i></font>
+<p>I've not done this with cd audio, but I've synchronized scrolling a text field to match a video.  I think, whether you use clips, or straight MCI commands, the key is to realize that you can find out the position of the audio (or video) as it is being played.  With audio, you probably will use milliseconds.  So, what you'll need to do is decide how you are presenting the lyrics.  You could, simply, create a number of different pages, with the lyrics spread across these pages.  Dividing up the lyrics would be based on the natural phrasing of the songs.  Then, you would manually go through the audio cd and obtain the necessary information for the start of each new phrase.  What I mean is this:  if you're using milliseconds as the timing basis, then you would determine that phrase 1 should be shown while the position of the audio is between 0 and 20 ms; phrase 2: between 21 and 40, etc. 
+<p>Another approach (much more efficient):  store the text to be displayed in an array and then display this text in a single field on a single page as the audio is played.  You would use a <i>timer </i><i>to periodically check the status of the cdaudio's position</i>. 
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E58"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Using a timer in animation</b><b> </b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Michael McKinnon.</i></font>
+<p>In OpenScript, Asymetrix has managed to incorporate some commands, which although they appear to be OpenScript commands, are actually functions from the Windows system.  The commands which I will demonstrate here are the timerStart and timerStop functions.  These functions allow you to either start a virtual alarm clock which can go off after a preset amount of time, or have a metronome effect, triggering an event periodically.
+<p>When it comes to &#145;cel&#146; animation, most people are inclined to use a <i>step </i>loop to control the hiding and showing of the separate cels, but this has a number of disadvantages as follows:
+<h4>
+<font FACE="Arial" COLOR="#004080"><a NAME="I2"></a><b>Step loops and animation don&#146;t always mix!</b></font></h4>
+<p>&#149; The speed of the animation will change on different types of machines. i.e. a Pentium vs. an older 386 machine.  Even on the same machine, the time it takes for a step loop to complete may change dependent on the resource loads at the time.
+<p>&#149; A step loop uses valuable CPU time, which could be employed doing other tasks, such as waiting for the user to stop the animation.
+<p>&#149; It can take a considerable amount of time trying to guess exactly how many times the loop must iterate.  This often means switching between author and reader mode several times, just to change one number in a script.
+<h4>
+<font FACE="Arial" COLOR="#004080"><a NAME="I3"></a><b>Why use a Windows timer?</b></font></h4>
+<p>When you start to use Windows timers, people will start calling you a <i>real</i> Windows programmer.  The timer will be precise on almost any machine, it doesn&#146;t waste valuable CPU time, and you need only make a few adjustments to know what the results will be.
+<p>So, now that you&#146;re convinced that the Windows timer is the way to go, maybe you should check out your &quot;Multimedia ToolBook User Manual and OpenScript Reference&quot; under section 10-48 and 10-49, or consult the Help file by searching for &#145;timerStart&#146;.
+<p>As you can see, the commands are reasonably straight forward. The only other thing you must know is that the notify object which receives the timer message intercepts it with a <b>&quot;timerNotify&quot;</b> handler, and this is where the action happens.
+<h4>
+<font FACE="Arial" COLOR="#004080"><a NAME="I4"></a><b>The receipe for cel animation</b></font></h4>
+<h5><i>Step 1 - animation cels</i></h5>
+<p>First you&#146;ll need Some animation &#145;cels&#146;. Usually in the form of imported bitmaps. They should all be the same size, named in sequence PaintObject &quot;1&quot;,&quot;2&quot;,&quot;3&quot; etc. and then grouped. You should make sure that they are all aligned to sit on top of each other (use the Tools menu to align them easily).
+<h5><i>Step 2 - set user properties</i></h5>
+<p>Using my script, you&#146;ll need to set two user properties on the group, by using the Property browser. Call the first property <b>CurrentFrame</b> and give it a value of &#145;1&#146;, then call the second property <b>FrameCount </b>and give it a value equal to the number of cel PaintObjects you have in the group and add one. (So, if you have six cels, give the FrameCount property a value of seven.)
+<h5><i>Step 3 - some </i><b><i>s</i></b><i>cript</i></h5>
+<p>Next, you&#146;ll need a script on the group to control the animation. You can place the script higher in the book if you have animations on several pages, and in Multimedia ToolBook 4.0 you might even like to use the SharedScript feature.
+<h5><i>Step 4 - starting the animation</i></h5>
+<p>Next, you&#146;ll want to test the animation to see if it works. Let&#145;s assume that I called the group of cels &#145;logo&#146;.  To start the animation, all I have to do (from the command Window in author mode, or in script at runtime) is to issue the command <b>send animate &quot;start&quot; to group &quot;logo&quot;.</b>
+<p>When the animation has started, it will continue to run, regardless of whether you switch between reader and author mode. Do you know why? It&#146;s because the Windows timer event which we have started is doing all the work for us!
+<h6><a NAME="I5"></a><b><i>Summary</i></b></h6>
+<p>As you can clearly see, there are many advantages to running animations in this way.  You can use the Windows timer for a number of tasks, and these are limited only by your imagination. Here are some of my suggestions:
+<p>&#149; A splash screen at the start of your application. By using a timer, you could show a viewer with some credits or disclaimer information for, say 2 seconds.
+<p>&#149; On a kiosk application, you might want to perform a demonstration routine if the kiosk hasn&#146;t been touched for, say 5 minutes. All you would do is catch the first idle and start a timer for 5 minutes. If someone comes back before then, you stop the timer and start it again when you catch the first idle. When the timer does elapse your application can start its demonstration.
+<p>&#149; For CBT applications you can easily use a single timer to lock out a question if it hasn&#146;t been answered in the correct amount of time.
+<p>&#149; If you produce any applications that provide network functionality, you can use the timer to keep polling the other application to test if it is still alive.  The periodic nature of the timer makes it an ideal heartbeat for all types of tasks.
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>-- NOTE: The cel animation that I use </b>
+<b>-- consists of the real frames, plus the last one</b>
+<b>-- which is always on the background image, </b>
+<b>-- and which can't be shown or hidden.</b>
+<b>-- I call it the &quot;dummy&quot; frame.</b>
+<b>to handle TimerNotify</b>
+<b>   </b><b>-- variable declaration</b>
+<b>   </b><b>local INT vFrameCount, vCurrentFrame, vNewFrame</b>
+<b>   </b><b>-- number of paintObjects</b>
+<b>   </b><b>vFrameCount = my FrameCount</b><b>   </b><b> </b>
+<b>   </b><b>-- current frame number</b>
+<b>   </b><b>vCurrentFrame = my CurrentFrame </b>
+<b>   -- calculate newframe</b>
+<b>   </b><b>vNewFrame = vCurrentFrame mod vFrameCount + 1</b>
+<b>   </b><b>-- lock the screen</b>
+<b>   </b><b>syslockscreen = true</b>
+<b>   </b><b>if vNewFrame &lt;&gt; vFrameCount then</b>
+<b>   </b><b>   </b><b>-- show next frame (if not dummy)</b>
+<b>   </b><b>   </b><b>show paintobject vNewFrame of self</b>
+<b>   </b><b>end if</b>
+<b>   </b><b>if vCurrentFrame &lt;&gt; vFrameCount then</b>
+<b>   </b><b>   </b><b>-- hide last frame (cant hide dummy)</b>
+<b>   </b><b>   </b><b>hide paintobject vCurrentFrame of self</b>
+<b>   </b><b>end if</b>
+<b>   </b><b>-- unlock the screen</b>
+<b>   </b><b>syslockscreen = false</b>
+<b>   </b><b>-- update current frame for next time</b><b>   </b>
+<b>   </b><b>my CurrentFrame = vNewFrame</b>
+<b>end</b>
+<b>------------------------------------------</b>
+<b>-- ANIMATE (START OR STOP)</b><b>   </b><b>MJM 01/02/96</b>
+<b>------------------------------------------</b>
+<b>-- This handler is called when the cel </b>
+<b>-- animation in this group is requested to</b>
+<b>-- start. it then starts a Windows </b>
+<b>-- timer to initialise the animation event. The</b>
+<b>-- timerNotify handler will control the rest, </b>
+<b>-- as long as the timer is going.</b>
+<b>--</b>
+<b>to handle animate switch</b>
+<b>   </b><b>-- Check for the switch passed to the handler</b>
+<b>   </b><b>if switch = &quot;start&quot; then</b>
+<b>-- If the object already has a </b>
+<b>-- TimerID, don&#146;t start!</b>
+<b>   </b><b>   </b><b>if my TimerID is NULL then</b>
+<b>-- Set my TimerID by starting a Windows Timer</b>
+<b>   </b><b>   </b><b>   </b><b>my TimerID = \</b>
+<b>   </b><b>   </b><b> timerStart(periodic,100,1000,target)</b>
+<b>-- Check for a problem with the TimerStart command.</b>
+<b>   </b><b>   </b><b>   </b><b>if my TimerID is NULL then</b>
+<b>   </b><b>   </b><b>   </b><b>   -- Show what went wrong.</b>
+<b>   </b><b>   </b><b>   </b><b>   request &quot;Timer Start&quot;&amp;CRLF&amp;&quot;ERROR:&quot;&amp; \</b>
+<b>   </b><b>   </b><b>   </b><b>   </b><b> syserror</b>
+<b>   </b><b>   </b><b>   </b><b>end if</b>
+<b>   </b><b>   </b><b>else</b>
+<b>-- If this group object already had a TimerID, then</b>
+<b>-- it is preferable to stop it, if for some reason</b>
+<b>-- we have tried to start another one. </b>
+<b>-- This is a safeguard</b>
+<b>-- when used in a MouseEnter/Leave </b>
+<b>-- situation where you</b>
+<b>-- might be switching between reader/author </b>
+<b>-- mode, and where</b>
+<b>-- the MouseLeave may not be sent.</b>
+<b>   </b><b>   </b><b>   </b><b>send animate &quot;stop&quot; to self</b>
+<b>   </b><b>   </b><b>end if</b>
+<b>   </b><b>else </b>
+<b>&#150;- &quot;Stop&quot; (or something else) has been called.</b>
+<b>   </b><b>   </b><b>if my TimerID is not NULL</b><b>   </b>
+<b>   </b><b>   </b><b>   </b><b>get TimerStop(my TimerID)</b>
+<b>   </b><b>   </b><b>   </b><b>if it is NULL then</b>
+<b>-- Tell the user why we couldn&#146;t stop the thing.</b>
+<b>   </b><b>   </b><b>   </b><b>  request &quot;Timer Stop&quot;&amp;CRLF&amp;&quot;ERROR:&quot; &amp; \</b>
+<b>   </b><b>   </b><b>   </b><b>   </b><b>syserror</b>
+<b>   </b><b>   </b><b>   </b><b>else</b>
+<b>-- get rid of the TimerID user property</b>
+<b>   </b><b>   </b><b>   </b><b>   </b><b>clear my TimerID</b>
+<b>-- reset all the animation cels to the start point</b>
+<b>   </b><b>   </b><b>   </b><b>   </b><b>send resetcels to self</b>
+<b>   </b><b>   </b><b>   </b><b>end if</b>
+<b>   </b><b>   </b><b>end if</b>
+<b>   </b><b>end if</b>
+<b>end</b>
+<b>-------------------------------------</b>
+<b>-- SHOWCELS</b><b>   </b><b>MJM 01/02/96</b>
+<b>-------------------------------------</b>
+<b>-- I keep this in the script so I can </b>
+<b>-- call it to show all the cels if I </b>
+<b>-- need to move any of them around.</b>
+<b>--</b>
+<b>to handle showcels</b><b>   </b>
+<b>   </b><b>step i from 1 to \</b>
+<b>   </b><b> ItemCount(my objects)</b>
+<b>   </b><b>   </b><b>show (item i of my objects)</b>
+<b>   </b><b>end step</b>
+<b>end</b>
+<b>------------------------------------------</b>
+<b>-- RESETCELS</b><b>   </b><b>   </b><b>   </b><b>MJM 01/02/96</b>
+<b>------------------------------------------</b>
+<b>-- The animation must be reset so as </b>
+<b>-- to hide all the </b>
+<b>-- cels and only leave the background (&quot;dummy&quot;) </b>
+<b>-- image present. In theory, I am simply hiding the</b>
+<b>-- last current frame and showing the </b>
+<b>-- &quot;dummy&quot; frame.</b>
+<b>--</b>
+<b>to handle resetcels</b>
+<b>   </b><b>-- variable declaration</b>
+<b>   </b><b>local vCurrentFrame, vFrameCount</b>
+<b>   </b><b>vFrameCount = my FrameCount</b><b>   </b><b>  -- number of frames</b>
+<b>   </b><b>vCurrentFrame = my CurrentFrame -- current frame</b>
+<b>-- check if we are already </b>
+<b>-- showing the &quot;dummy&quot; frame.</b>
+<b>   </b><b>if vCurrentFrame &lt;&gt; vFrameCount then</b>
+<b>   </b><b>   </b><b>-- hide last frame (not dummy)</b>
+<b>   </b><b>   </b><b>hide paintobject vCurrentFrame of target</b>
+<b>   </b><b>end if</b>
+<b>   </b><b>-- reset currentFrame to dummy</b>
+<b>   </b><b>my CurrentFrame = vFrameCount</b>
+<b>end</b></font></pre>
+<hr WIDTH="50%" ALIGN="CENTER">
+<br>
+<a NAME="E18E59"></a>
+<h3><p ALIGN="CENTER">
+<font FACE="Arial" SIZE="+3" COLOR="#008000"><b>Using the Toolbook freeware Synchronization </b><b>Plug-In Utility</b></font></h3>
+<i>Solution by </i>
+<font FACE="Times New Roman" SIZE="-1"><i>Tony Domigan</i></font>
+<p>As a developer, you invariably write nifty routines to make programming tasks easier. These utilities are rarely shared with others because of the effort required to make them bug-free and intuitive for others to use.
+<p>At the last meeting I discussed a utility from Slade Mitchell called the <b>Synchronization Plug-In</b>. I was surprised that this utility was virtually unknown so I thought I might describe this utility here as I believe that it can provide a useful and simple interface for handling timer functions.
+<p>The SYNCH system book was written by Slade Mitchell (<b>smitchel@wat.hookup.net</b>) and can be obtained from
+<pre>
+<center><a HREF="http://www.hookup.net/~smitchel">http://www.hookup.net/~smitchel</a></center></pre>
+<p>From his site you can download a version for MTBCBT3, 4 and 5. Slade invites you to register on his web site so that you can be informed of changes.
+<p>The SYNCH package contains:
+<p>&#149; <b>SYNCHXX.SPB</b> the widget editor which you move to your MTBCBT widget directory
+<p>&#149; <b>SYNCHXX.SBK</b> the widget handler which you push onto sysbooks on enterApplication
+<p>&#149; <b>SYNCHXX.TBK</b> an example toolbook and a sample wave file used by the toolbook.
+<p>Additionally, you can download documentation from Slade&#146;s web site.
+<p>The SYNCH system book supports the management of synchronization widgets. To begin to use the utility you push the sbk onto sysbooks in your enterApplication handler (you do not add it to your preferences sysbooks).
+<p>Once you have started the toolbook with the SYNCH sbk loaded you can choose any object from the tools palette and from the command prompt issue the synch_make handler to define the object as a synchronization controller widget.  E.g.
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>send WID_Synch_MakeWidget to \</b>
+<b>   </b><b><i>OBJECT &quot;objectname</i></b><b>&quot; of this page</b></font></pre>
+<p>If you examine the new widget using the property editor you will see that there have been new widget user properties added as follows:
+<pre>
+<center><img SRC="images/widgetPropertiesScreenShot.gif" WIDTH="513" HEIGHT="290"></center></pre>
+<p ALIGN="CENTER">
+<center><b>Figure </b><b>23</b><b> - defining the widget properties</b></center>
+<pre>
+<center><img SRC="images/PropertyEditorScreenShot.gif" WIDTH="239" HEIGHT="253"></center></pre>
+<p ALIGN="CENTER">
+<center><b>Figure </b><b>24</b><b> - Check out the user properties this tool is using </b><b>for yourself - using Toolbook's built in property browser.  </b></center>
+<p>The synch sbk will also make changes to the script of the object to add a basic handling template which you customise to invoke your routine when the timing function is triggered.
+<p>Having defined the object as a widget you can then invoke the CBT widget properties editor for the new widget to establish the synchronization type and parameters to use for the widget.
+<p>There are 4 synchronization (timer) types handled by the widget:
+<ul>
+<li>timeAbsolute - trigger values are milliseconds from start
+<li>timeRelative - trigger values are milliseconds BETWEEN triggers
+<li>timePeriodic - trigger value is the period of the timer
+<li>mediaClip - trigger values are the position in ms/frames of the media Clip
+</ul>
+<p>You first select which of these modes you want to use. The first three modes all use trigger points measured in milliseconds. The mediaClip mode also allows you to choose frames if you are trying to synchronize to a video clip.
+<p>Once you have defined the type and parameters for the synchronization controller you modify the trigger handler template which was automatically added to the script of the object.
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>to handle WID_Synch_EventTriggered pTriggerIndex</b>
+<b>   </b><b>conditions</b>
+<b>   </b><b>   </b><b>when pTriggerIndex = 1</b>
+<b>   </b><b>   </b><b>   </b><b>-- add an action</b>
+<b>   </b><b>   </b><b>   </b><b>show field &quot;prompt1&quot;</b>
+<b>   </b><b>end conditions</b>
+<b>end WID_Synch_EventTriggered</b></font></pre>
+<p>The widget is controlled by 2 messages:
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b>  WID_Synch_Start</b>
+<b>  WID_Synch_Stop</b></font></pre>
+<p>All that needs to be done now is to start the trigger in your program e.g.
+<pre>
+<font FACE="Courier New" COLOR="#800040"><b> send WID_Synch_Start to </b><b><i>OBJECT &quot;objectname</i></b><b>&quot; </b></font></pre>
+<p>When the timer completes the trigger will be sent to the object EventTriggered handler where your custom actions will be activated.
+<p>Timers are relatively easy to use but you do need to be vigilant when using them as a mistake could lead to a fatal Windows error. Slade&#146;s Synchronization plug-in provides a simple to use and robust interface to timer functions.
+<p>The Synchronization Plug-In system books (SYNCH30.SBK, SYNCH40.SBK, SYNCH50.SBK) can be freely used and distributed by anyone as part of ToolBook development projects as long as the following acknowledgement appears in the book script of your application:
+<p><i>&quot;Portions of this application are the copyright of Interactive Software Solutions&quot;. </i><i>&quot;Portions of the code are the copyright of Asymetrix Corporation&quot;</i>
+<p>I recommend you give this plug-in a try.
+
+<hr>
+<p>To access <em>thousands </em>more tips offline <em>-</em> download <a href="https://toolbook.atug.com/" target="_blank">Toolbook Knowledge Nuggets</a>&nbsp; </p>
+
+<p ALIGN="CENTER">
+<a HREF="TOCONV18.htm" TARGET="_self"><img SRC="images/blanprev.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Previous Page"></a>
+<a HREF="TOCONV20.htm" TARGET="_self"><img SRC="images/blannext.gif" WIDTH="37" HEIGHT="37" BORDER="0" ALT="Next Page"></a>
+</body></html>
